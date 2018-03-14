@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/lalrishav/hackathon4.0-server/issues"
   },
-  "homepage": "https://github.com/lalrishav/hackathon4.0-server#readme"
+  "homepage": "https://github.com/lalrishav/hackathon4.0-server#readme",
+  "dependencies": {
+    "mongoose": "^5.0.10",
+    "socket.io": "^2.0.4"
+  }
 }
