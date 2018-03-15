@@ -24,7 +24,7 @@ module.exports = function(app,passport){
    }
 
   /*All the get method routes*/
-    app.get("/home",function(req,res){
+    app.get("/",function(req,res){
       res.render("index")
   });
 
