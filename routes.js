@@ -8,25 +8,21 @@ var jwt = require("jsonwebtoken")
 module.exports = function(app,passport){
     /*middleware function to check the proper authentication */
    function isLoggedIn(req,res,next){
-       var token = req.body.token || req.query.token || req.headers['x-access-token'];
-       if(token){
-           jwt.verify(token,app.get('superSecret'),function(error,decoded){
-                if(error){
-                    return res.json({ success: false, message: 'Failed to authenticate token.' });
-                }else{
-                    req.decoded = decoded;
-                    next()
-                }
-           })
+       if(!req.isAuthenticated()){
+           return next();
        }else{
-           console.log("not logged in")
+           res.redirect("/")
        }
    }
 
   /*All the get method routes*/
     app.get("/",function(req,res){
       res.render("index")
-  });
+    });
+
+    app.get("/dashboard",isLoggedIn,function(req,res){
+        res.redner("dashboard")
+    });
 
   /* All the post method routes */
     app.post("/android/login",function(req,res){
@@ -51,7 +47,7 @@ module.exports = function(app,passport){
               }
           }
       })
-  })
+    });
 
     app.post('/login',passport.authenticate('local-login',{
         successRedirect :  '/dashboard',
