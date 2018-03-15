@@ -6,29 +6,35 @@
         <script>
             var socket = io.connect();
            jQuery(function($){
-               $("#login").click(function(e){
+              /* $(window).load(function(e){
+                   e.preventDefault();
+               });*/
+
+               /*$("#login").click(function(e){
                    e.preventDefault();
                    if($("#username").val()!=="" && $("#password").val()!==""){
-                       $("#login").val("Logging...");
+                       $("#login").val("Logging......");
                        let loginData = {};
                        loginData.username = $("#username").val();
                        loginData.password = $("#password").val();
-
-                       socket.emit("login",loginData)
-
+                       $.post("/login",loginData,function(response){
+                            console.log(response)
+                       })
                    }else{
                        alert("Username and password field can't be empty")
                    }
-               })
+               })*/
            })
         </script>
     </head>
     <body>
     <center>
         <h1>Login to Dashboard</h1>
-        <input type="text" id="username" placeholder="Enter your consumer id"><br><br>
-        <input type="text" id="password" placeholder="Enter your password"><br><br>
-        <input type="button" id="login" value="Login to dashboard">
+        <form id="loginForm" action="/login" method="post">
+            <input type="text" id="username" placeholder="Enter your consumer id" name="username"><br><br>
+            <input type="text" id="password" placeholder="Enter your password" name="password"><br><br>
+            <input type="submit" id="login" value="Login to dashboard">
+        </form>
     </center>
     </body>
 </html>

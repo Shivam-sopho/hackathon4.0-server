@@ -2,12 +2,27 @@
 const http = require("http");
 const express = require("express");
 const app = express();
-const path = require("path")
+const path = require("path");
 const socket = require('socket.io');
 const mongoose = require("mongoose");
+const passport = require('passport');
+const flash = require('connect-flash');
+const session = require('express-session')
+app.use(session({
+    cookieName 	: 'session',
+    secret	   	: 'asdfghjklpoiuytrewq',
+}))
+app.use(passport.initialize());
+app.use(flash());
+app.use(passport.session());
+const bodyParser = require("body-parser")
 var config = require("./config");
+app.set('view engine','ejs');
+app.set('views',path.join(__dirname,'view'));
 app.use(express.static(path.join(__dirname, 'public')));
-require("./routes")(app);
+app.use(bodyParser());
+require('./config/passport')(passport);
+require("./routes")(app,passport);
 
 
 /*Server configuration*/
