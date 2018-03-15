@@ -54,7 +54,7 @@ function onError(error){
 function onListening(){
     /*Connect to mongodb server and database after server starts successfullly */
     console.log("Server is successfully listening on port " + config.server.port)
-    mongoose.connect(process.env.MONGOLAB_URI||config.server.dbServer,function (error){
+    mongoose.connect("mongodb://hackathon 4.0:won4.0@ds115219.mlab.com:15219/rajasthan_hackathon"||config.server.dbServer,function (error){
        if(error){
            console.log(error)
        }else{
