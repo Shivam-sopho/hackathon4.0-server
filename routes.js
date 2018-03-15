@@ -8,7 +8,7 @@ var jwt = require("jsonwebtoken")
 module.exports = function(app,passport){
     /*middleware function to check the proper authentication */
    function isLoggedIn(req,res,next){
-       if(!req.isAuthenticated()){
+       if(req.isAuthenticated()){
            return next();
        }else{
            res.redirect("/")
@@ -21,7 +21,7 @@ module.exports = function(app,passport){
     });
 
     app.get("/dashboard",isLoggedIn,function(req,res){
-        res.redner("dashboard")
+        res.render("dashboard",{"user":req.user})
     });
 
   /* All the post method routes */
@@ -55,7 +55,5 @@ module.exports = function(app,passport){
         failureFlash : true
     }))
 
-    app.get("/dashboard",function(req,res){
-      res.json("hello")
-    })
+
 };
