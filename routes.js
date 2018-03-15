@@ -58,4 +58,8 @@ module.exports = function(app,passport){
         failureRedirect : '/',
         failureFlash : true
     }))
+
+    app.get("/dashboard",function(req,res){
+      res.json("hello")
+    })
 };
