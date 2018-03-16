@@ -15,6 +15,7 @@ var activeUser = [];
 module.exports = function(io){
     io.sockets.on("connection",handleSockets);
     function handleSockets(socket){
+        console.log("a socket connected")
         socket.on("emitUser",function(data,callback){
             console.log("helllo")
             socket.userid = data.userid;
@@ -24,6 +25,7 @@ module.exports = function(io){
         });
 
         socket.on("getRating",function(data,callback){
+            console.log("helllllllo")
             var userid = data.userid;
             Feedback.findOne({"userid":userid},function(err,feedback){
                 if(err){

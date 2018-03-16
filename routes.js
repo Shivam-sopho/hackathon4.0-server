@@ -50,7 +50,7 @@ module.exports = function(app,passport){
                   if(user.password !== data.password){
                       res.json({"status":401})
                   }else{
-                      res.json({"status":200})
+                      res.json({"status":200,"data":user})
                   }
               }
           }
