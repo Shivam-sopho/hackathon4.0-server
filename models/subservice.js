@@ -8,3 +8,5 @@ var subserviceSchema = new Schema({
 	"duration"		: {"type":String}
 	/* in number of days */
 })
+
+mongoose.model("Subservice",subserviceSchema,"subservice")

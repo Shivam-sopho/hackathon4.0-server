@@ -21,11 +21,15 @@ module.exports = function(app,passport){
     });
 
     app.get("/dashboard",isLoggedIn,function(req,res){
-        res.render("dashboard1",{"user":req.user})
+        res.render("dashboard",{"user":req.user})
     });
 
     app.get("/logout",function(req,res){
-      
+
+    })
+
+    app.get("/newService",isLoggedIn,function(req,res){
+      res.render("newService",{"user":req.user})
     })
 
   /* All the post method routes */
