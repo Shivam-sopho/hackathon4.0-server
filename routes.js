@@ -54,6 +54,4 @@ module.exports = function(app,passport){
         failureRedirect : '/',
         failureFlash : true
     }))
-
-
 };
