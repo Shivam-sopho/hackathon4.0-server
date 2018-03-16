@@ -17,7 +17,7 @@ module.exports = function(app,passport){
 
   /*All the get method routes*/
     app.get("/",function(req,res){
-      res.render("index")
+      res.render("index1")
     });
 
     app.get("/dashboard",isLoggedIn,function(req,res){
