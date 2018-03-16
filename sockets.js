@@ -18,6 +18,7 @@ module.exports = function(io){
         });
 
         socket.on("getRating",function(data,callback){
+            console.log("helllllllo")
             var userid = data.userid;
             Feedback.findOne({"userid":userid},function(err,feedback){
                 if(err){
