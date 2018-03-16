@@ -3,10 +3,12 @@ require("./models/user");
 require("./models/feedback");
 require("./models/service");
 require("./models/subservice")
+require("./models/college")
 var Subservice = mongoose.model("Subservice")
 var Service = mongoose.model("Service")
 var User = mongoose.model("User");
 var Feedback = mongoose.model("Feedback");
+var College = mongoose.model("College")
 var activeSocket = [];
 var activeUser = [];
 
@@ -54,6 +56,16 @@ module.exports = function(io){
                     callback(500,"Internal service error")
                 }else{
                     callback(200,service)
+                }
+            })
+        })
+
+        socket.on("extractCollege",function(callback){
+            College.find({},function(err,college){
+                if(err){
+                    callback(500,"Internal server error")
+                }else{
+                    callback(200,college)
                 }
             })
         })

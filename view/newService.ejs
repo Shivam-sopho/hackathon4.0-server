@@ -24,15 +24,35 @@
             });
         })
 
+        $("#proceed").click(function(){
+
+        })
+        
         function extractSubservice(){
             var serviceId = $("#service").val()
             socket.emit("extractSubservice",serviceId,function(status,response){
                 document.getElementById("subservice").style.display = "block";
                 $("#subservice").html("<option selected disabled hidden>Select the sub-service type</option>")
                 for(var i=0;i<response.length;i++){
-                  $("#subservice").append("<option value=" + response[i]._id + ">" + response[i].subService + "</option>")
+                  $("#subservice").append("<option value=" + response[i].subService + ">" + response[i].subService + "</option>")
                 }
             })
+        }
+        function lastProcess(){
+          var subService = $("#subservice").val();
+          console.log(subService)
+          if(subService.indexOf("college")!=-1){
+            document.getElementById("institute").style.display = "block";
+            socket.emit("extractCollege",function(status,response){
+              console.log(status)
+              for(var i=0;i<response.length;i++){
+                $("#institute").append("<option value=" + response[i].subService + ">" + response[i].college + "</option>")
+                document.getElementById("proceed").style.display = "block";
+              }
+            })
+          }else{
+            document.getElementById("proceed").style.display = "block";
+          }
         }
     </script>
     <style type="text/css">
@@ -102,7 +122,8 @@
       <option selected disabled hidden>Select the sub-service type</option>
     </select><br><br>
     <select id="institute">
-    </select><br><br>
+    </select><br>
+    <center><input type="button" value="Proceed" id="proceed" style="display:none"></center>
 </section>
 
 
