@@ -60,6 +60,6 @@ module.exports = function(app,passport){
     }))
 
     app.get("/dashboard",function(req,res){
-      res.json("hello")
+      res.render('dashboard1');
     })
 };
