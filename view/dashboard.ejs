@@ -7,11 +7,18 @@
         var socket = io.connect();
         $(window).load(function(e){
             e.preventDefault();
-            socket.emit("emitUser",{userid:"<%= user._id %>"},function(){
+            /*socket.emit("emitUser",{userid:"<%= user._id %>"},function(){
                 socket.emit("getRating",{userid:"<%= user._id %>"},function(status,rating){
                     $("#rating").html(rating)
                 });
+            });*/
+            socket.emit("emitUser",{userid:"<%= user._id %>"},function(){
+                socket.emit("getRating",{userid:"<%= user._id %>"})
             });
+
+            socket.on("getRating ack",function(data){
+                console.log(data)
+            })
         })
     </script>
   <!-- Site made with Mobirise Website Builder v4.6.6, https://mobirise.com -->

@@ -24,19 +24,24 @@ module.exports = function(io){
             callback(true)
         });
 
-        socket.on("getRating",function(data,callback){
+        socket.on("getRating",function(data){
             console.log("helllllllo")
             var userid = data.userid;
+            var json = {}
             Feedback.findOne({"userid":userid},function(err,feedback){
                 if(err){
-                    callback(500,"Internal server error")
+                    json.status = 500;
+                    json.data = "internal server error"
                 }else{
                     if(!feedback){
-                        callback(200,"Unrated")
+                        json.status = 200
+                        json.data = "Unrated"
                     }else{
-                        callback(200,feedback.rating);
+                        json.status = 200;
+                        json.data = feedback.rating;
                     }
                 }
+                socket.emit("getRating ack",json)
             })
         });
 

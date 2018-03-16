@@ -5,7 +5,10 @@
     <script src="/socket.io-client/dist/socket.io.js"></script>
     <script>
         var socket = io.connect();
+        var subServiceList = [];
+        var serviceList = [];
         $(window).load(function(e){
+            $('#loading').hide();
             e.preventDefault();
             document.getElementById("service").style.display = "block";
             socket.emit("emitUser",{userid:"<%= user._id %>"},function(){
@@ -17,28 +20,43 @@
                     if(status == 200){
                       $("#service").html("<option selected disabled hidden>Select the service type</option>")
                         for(var i=0;i<response.length;i++){
-                            $("#service").append("<option value=" + response[i]._id + ">" + response[i].service + "</option>")
+                          serviceList.push(response[i]);
+                          $("#service").append("<option value=" + response[i]._id + ">" + response[i].service + "</option>")
                         }
                     }
                 })
             });
+
+            $("#proceed").click(function(e){
+              e.preventDefault()
+              var subService = $("#subservice").val();
+              var service = $("#service").val();
+              var serviceArrayPos = serviceList.map(function(e){
+                return e._id
+              }).indexOf(service)
+              var serviceType = serviceList[serviceArrayPos].serviceType;
+              var serviceCharge = serviceList[serviceArrayPos].serviceType
+              
+            })
         })
 
-        $("#proceed").click(function(){
 
-        })
-        
+
         function extractSubservice(){
+            $('#loading').show();
             var serviceId = $("#service").val()
             socket.emit("extractSubservice",serviceId,function(status,response){
                 document.getElementById("subservice").style.display = "block";
                 $("#subservice").html("<option selected disabled hidden>Select the sub-service type</option>")
                 for(var i=0;i<response.length;i++){
+                  subServiceList.push(response[i]);
                   $("#subservice").append("<option value=" + response[i].subService + ">" + response[i].subService + "</option>")
                 }
+                $('#loading').hide();
             })
         }
         function lastProcess(){
+          $('#loading').show();
           var subService = $("#subservice").val();
           console.log(subService)
           if(subService.indexOf("college")!=-1){
@@ -49,9 +67,11 @@
                 $("#institute").append("<option value=" + response[i].subService + ">" + response[i].college + "</option>")
                 document.getElementById("proceed").style.display = "block";
               }
+              $('#loading').hide();
             })
           }else{
             document.getElementById("proceed").style.display = "block";
+            $('#loading').hide();
           }
         }
     </script>
@@ -71,6 +91,25 @@
         
         option{
             text-align: center;
+        }
+        #loading {
+           width: 100%;
+           height: 100%;
+           top: 0;
+           left: 0;
+           position: fixed;
+           display: block;
+           opacity: 0.7;
+           background-color: #fff;
+           z-index: 99;
+           text-align: center;
+        }
+
+        #loading-image {
+          position: absolute;
+          top: 100px;
+          left: 240px;
+          z-index: 100;
         }
     </style>
   <!-- Site made with Mobirise Website Builder v4.6.6, https://mobirise.com -->
@@ -92,7 +131,11 @@
   
   
 </head>
+
 <body>
+  <div id="loading">
+    <img id="loading-image" src="gif/bolt.gif" alt="Loading..." />
+  </div>
   <section class="mbr-section info3 cid-qMsVwoVckA" id="info3-3j">
 
     
