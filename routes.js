@@ -21,8 +21,12 @@ module.exports = function(app,passport){
     });
 
     app.get("/dashboard",isLoggedIn,function(req,res){
-        res.render("dashboard",{"user":req.user})
+        res.render("dashboard1",{"user":req.user})
     });
+
+    app.get("/logout",function(req,res){
+      
+    })
 
   /* All the post method routes */
     app.post("/android/login",function(req,res){

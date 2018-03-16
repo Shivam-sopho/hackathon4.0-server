@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html >
 <head>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="/socket.io-client/dist/socket.io.js"></script>
+    <script>
+        var socket = io.connect();
+        $(window).load(function(e){
+            e.preventDefault();
+            socket.emit("emitUser",{userid:"<%= user._id %>"},function(){
+                socket.emit("getRating",{userid:"<%= user._id %>"},function(status,rating){
+                    $("#rating").html(rating)
+                });
+            });
+        })
+    </script>
   <!-- Site made with Mobirise Website Builder v4.6.6, https://mobirise.com -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,11 +45,11 @@
         <div class="row justify-content-center">
             <div class="media-container-column title col-12 col-md-10">
                 <h2 class="align-left mbr-bold mbr-white pb-3 mbr-fonts-style display-2">
-                    LAL RISHAV</h2>
+                    <%= user.username %></h2>
                 
                 
-                <div class="mbr-section-btn align-left py-4"><a class="btn btn-black display-4" href="https://mobirise.com"><span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span>Unrated</a>
-                    <a class="btn btn-secondary display-4" href="https://mobirise.com"><span class="mbrib-logout mbr-iconfont mbr-iconfont-btn"></span>Logout</a></div>
+                <div class="mbr-section-btn align-left py-4"><a class="btn btn-black display-4" href="https://mobirise.com"><span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span><span id="rating">Unrated</span></a>
+                    <a class="btn btn-secondary display-4" href="/logout"><span class="mbrib-logout mbr-iconfont mbr-iconfont-btn"></span>Logout</a></div>
             </div>
         </div>
     </div>
