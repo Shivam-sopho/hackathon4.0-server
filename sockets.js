@@ -16,12 +16,12 @@ module.exports = function(io){
     io.sockets.on("connection",handleSockets);
     function handleSockets(socket){
         console.log("a socket connected")
-        socket.on("emitUser",function(data,callback){
+        socket.on("emitUser",function(data){
             console.log("helllo")
             socket.userid = data.userid;
             activeSocket.push(socket);
             activeUser.push(socket.userid);
-            callback(true)
+            socket.emit("emitUser ack")
         });
 
         socket.on("getRating",function(data){
@@ -45,35 +45,47 @@ module.exports = function(io){
             })
         });
 
-        socket.on("extractServices",function(callback){
+        socket.on("extractServices",function(){
             console.log("hhhhhhhhhh")
+            var json = {}
             Service.find({},function(err,service){
                 if(err){
-                    callback(500,"Internal server error")
+                    json.status = 500;
+                    json.response = "internal server error"
                 }else{
-                    callback(200,service)
+                    json.status = 200;
+                    json.response = service
                 }
+                socket.emit("extractServices ack",json)
             })
         })
 
-        socket.on("extractSubservice",function(data,callback){
+        socket.on("extractSubservice",function(data){
             console.log(data)
+            var json = {}
             Subservice.find({"service":data},function(err,service){
                 if(err){
-                    callback(500,"Internal service error")
+                    json.status = 500
+                    json.response = "internal server error"
                 }else{
-                    callback(200,service)
+                    json.status = 200
+                    json.response = service
                 }
+                socket.emit("extractSubservice ack",json)
             })
         })
 
         socket.on("extractCollege",function(callback){
+            var json = {}
             College.find({},function(err,college){
                 if(err){
-                    callback(500,"Internal server error")
+                    json.status = 500
+                    json.response = "internal server error"
                 }else{
-                    callback(200,college)
+                    json.status = 200
+                    json.response = college
                 }
+                socket.emit("extractCollege ack",json)
             })
         })
     }
