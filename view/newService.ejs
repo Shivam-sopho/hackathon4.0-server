@@ -11,21 +11,24 @@
             $('#loading').hide();
             e.preventDefault();
             document.getElementById("service").style.display = "block";
-            socket.emit("emitUser",{userid:"<%= user._id %>"},function(){
-                socket.emit("getRating",{userid:"<%= user._id %>"},function(status,rating){
-                    $("#rating").html(rating)
-                });
-                socket.emit("extractServices",function(status,response){
-                    console.log(status)
-                    if(status == 200){
-                      $("#service").html("<option selected disabled hidden>Select the service type</option>")
-                        for(var i=0;i<response.length;i++){
-                          serviceList.push(response[i]);
-                          $("#service").append("<option value=" + response[i]._id + ">" + response[i].service + "</option>")
-                        }
+            socket.emit("emitUser",{userid:"<= user._id %>"});
+            socket.on("emitUser ack",function(){
+              socket.emit("getRating",{userid:"<%= user._id %>"})
+              socket.on("getRating ack",function(data){
+                $("#rating").html(data.rating)
+              })
+              socket.emit("extractServices")
+              socket.on("extractServices ack",function(data){
+                console.log(data.status)
+                if(data.status == 200){
+                  $("#service").html("<option selected disabled hidden>Select the service type</option>")
+                    for(var i=0;i<data.response.length;i++){
+                      serviceList.push(data.response[i]);
+                      $("#service").append("<option value=" + data.response[i]._id + ">" + data.response[i].service + "</option>")
                     }
-                })
-            });
+                }
+              })
+            })
 
             $("#proceed").click(function(e){
               e.preventDefault()
@@ -46,26 +49,31 @@
         function extractSubservice(){
             $('#loading').show();
             var serviceId = $("#service").val()
-            socket.emit("extractSubservice",serviceId,function(status,response){
-                document.getElementById("subservice").style.display = "block";
-                $("#subservice").html("<option selected disabled hidden>Select the sub-service type</option>")
-                for(var i=0;i<response.length;i++){
-                  subServiceList.push(response[i]);
-                  $("#subservice").append("<option value=" + response[i].subService + ">" + response[i].subService + "</option>")
-                }
-                $('#loading').hide();
+            socket.emit("extractSubservice",serviceId);
+
+            socket.on("extractSubservice ack",function(data){
+              document.getElementById("subservice").style.display = "block";
+              $("#subservice").html("<option selected disabled hidden>Select the sub-service type</option>")
+              for(var i=0;i<data.response.length;i++){
+                subServiceList.push(data.response[i]);
+                $("#subservice").append("<option value=" + data.response[i].subService + ">" + data.response[i].subService + "</option>")
+              }
+              $('#loading').hide();
             })
+            
         }
+
         function lastProcess(){
           $('#loading').show();
           var subService = $("#subservice").val();
           console.log(subService)
           if(subService.indexOf("college")!=-1){
             document.getElementById("institute").style.display = "block";
-            socket.emit("extractCollege",function(status,response){
-              console.log(status)
-              for(var i=0;i<response.length;i++){
-                $("#institute").append("<option value=" + response[i].subService + ">" + response[i].college + "</option>")
+            socket.emit("extractCollege");
+            socket.on("extractCollege ack",function(data){
+              console.log(data.status)
+              for(var i=0;i<data.response.length;i++){
+                $("#institute").append("<option value=" + data.response[i].subService + ">" + data.response[i].college + "</option>")
                 document.getElementById("proceed").style.display = "block";
               }
               $('#loading').hide();
@@ -93,31 +101,14 @@
         option{
             text-align: center;
         }
-        #loading {
-           width: 100%;
-           height: 100%;
-           top: 0;
-           left: 0;
-           position: fixed;
-           display: block;
-           opacity: 0.7;
-           background-color: #fff;
-           z-index: 99;
-           text-align: center;
-        }
-
-        #loading-image {
-          position: absolute;
-          top: 100px;
-          left: 240px;
-          z-index: 100;
-        }
+        
     </style>
   <!-- Site made with Mobirise Website Builder v4.6.6, https://mobirise.com -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="Mobirise v4.6.6, mobirise.com">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="stylesheet" href="static.css">
   <link rel="shortcut icon" href="assets/images/logo4.png" type="image/x-icon">
   <meta name="description" content="Website Builder Description">
   <title>Dashboard</title>

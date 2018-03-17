@@ -6,18 +6,14 @@
     <script>
         var socket = io.connect();
         $(window).load(function(e){
+            $("#loading").hide()
             e.preventDefault();
-            /*socket.emit("emitUser",{userid:"<%= user._id %>"},function(){
-                socket.emit("getRating",{userid:"<%= user._id %>"},function(status,rating){
-                    $("#rating").html(rating)
-                });
-            });*/
-            socket.emit("emitUser",{userid:"<%= user._id %>"},function(){
+            socket.emit("emitUser",{userid:"<%= user._id %>"})
+            socket.on("emitUser ack",function(){
                 socket.emit("getRating",{userid:"<%= user._id %>"})
-            });
-
-            socket.on("getRating ack",function(data){
-                console.log(data)
+                socket.on("getRating ack",function(data){
+                    $("#rating").html(data.rating)
+                })
             })
         })
     </script>
@@ -26,6 +22,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="Mobirise v4.6.6, mobirise.com">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="stylesheet" href="static.css">
   <link rel="shortcut icon" href="assets/images/logo4.png" type="image/x-icon">
   <meta name="description" content="Website Builder Description">
   <title>Dashboard</title>
