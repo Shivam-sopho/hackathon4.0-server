@@ -88,5 +88,20 @@ module.exports = function(io){
                 socket.emit("extractCollege ack",json)
             })
         })
+        socket.on("knumberDetail",function(data){
+            var json = {}
+            var knumber = data.knumber;
+            Details.find({"kNumber" : knumber},function(err,fetchBill){
+                if(err){
+                    json.status = 500
+                    json.response = "internal server error"
+                }else{
+                    json.status = 200;
+                    json.response = fetchBill;
+                    console.log('fetchbill');
+                }
+            })
+            socket.emit("knumberDetail ack",json);
+        })
     }
 };

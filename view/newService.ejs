@@ -40,9 +40,38 @@
               var serviceType = serviceList[serviceArrayPos].serviceType;
               var serviceCharge = serviceList[serviceArrayPos].serviceType;
               console.log("Yahoo");
+              var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
+              if(serviceType == 3){
+                $("#dynamic").show();
+              }
               
             })
+
+            $("#knumberDetail").click(function(){
+              if($("#knumber").val() == ""){
+                alert("Enter k-number")
+              }else{
+                socket.emit("knumberDetail",{"knumber":$("#knumber").val()})
+              }
+            })
+
+            socket.on("knumberDetail ack",function(data){
+              var knumber = data.response.kNumber;
+              var name = data.response.name;
+              var mobile = data.response.mobile;
+              var address = data.response.address;
+              var billAmount = data.response.billAmount;
+              $("#dynamicDetail").html(
+                  "<li>Knumber:-" + knumber +"</li>"
+                  "<li>User name :- "+ name +"</li>"
+                  "<li>Contact Number :-"+ mobile +"</li>"
+                  "<li>Address :-"+ address +"</li>"
+                  "<li>Amount :-"+billAmount +"</li>"
+                )
+            })
         })
+
+            }
 
 
 
