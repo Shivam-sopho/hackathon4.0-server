@@ -38,10 +38,35 @@
                 return e._id
               }).indexOf(service)
               var serviceType = serviceList[serviceArrayPos].serviceType;
-              var serviceCharge = serviceList[serviceArrayPos].serviceType;
+              var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
               console.log("Yahoo");
+              if(serviceType == 3){
+                $("#dynamic").show();
+              }
               
             })
+            $("#knumberDetail").click(function(){
+              if($("#knumber").val() == ""){
+                alert("Enter k-number")
+              }else{
+                socket.emit("knumberDetail",{"knumber":$("#knumber").val()})
+              }
+            })
+
+            /*socket.on("knumberDetail ack",function(data){
+              var knumber = data.response.kNumber;
+              var name = data.response.name;
+              var mobile = data.response.mobile;
+              var address = data.response.address;
+              var billAmount = data.response.billAmount;
+              $("#dynamicDetail").html(
+                  "<li>Knumber:-" + knumber +"</li>"
+                  "<li>User name :- "+ name +"</li>"
+                  "<li>Contact Number :-"+ mobile +"</li>"
+                  "<li>Address :-"+ address +"</li>"
+                  "<li>Amount :-"+billAmount +"</li>"
+                )
+            })*/
         })
 
 
@@ -149,7 +174,7 @@
     </div>
 </section>
 
-<section class="engine"><a href="https://mobirise.ws/e">best website maker software</a></section><section class="cid-qMt0LQWFo5" id="pricing-tables1-3u">
+<section class="cid-qMt0LQWFo5" id="pricing-tables1-3u">
     <select id="service" onchange="extractSubservice()">
         <option selected disabled hidden>Select the service type</option>
     </select><br><br>
@@ -159,6 +184,11 @@
     <select id="institute">
     </select><br>
     <center><input type="button" value="Proceed" id="proceed" style="display:none"></center>
+     <div id="dynamic" style="display:none">
+      <input type="text" id="knumber" placeholder="Enter k-number">
+      <input type="button" id="knumberDetail" value="checkStatus">
+      <div id="dynamicDetail"></div>
+    </div>
 </section>
 
 
