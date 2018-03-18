@@ -101,9 +101,11 @@ module.exports = function(io){
                     json.status = 200;
                     json.response = fetchBill;
                     console.log('fetchbill');
+                    socket.emit("knumberDetail ack",json);
                 }
+
             })
-            socket.emit("knumberDetail ack",json);
+            
         })
     }
 };
