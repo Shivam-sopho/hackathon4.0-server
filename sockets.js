@@ -4,6 +4,8 @@ require("./models/feedback");
 require("./models/service");
 require("./models/subservice")
 require("./models/college")
+require("./models/details")
+var Details = mongoose.model("Details")
 var Subservice = mongoose.model("Subservice")
 var Service = mongoose.model("Service")
 var User = mongoose.model("User");
