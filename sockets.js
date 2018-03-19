@@ -93,7 +93,7 @@ module.exports = function(io){
         socket.on("knumberDetail",function(data){
             var json = {}
             var knumber = data.knumber;
-            Details.find({"kNumber" : knumber},function(err,fetchBill){
+            Details.findOne({"kNumber" : knumber},function(err,fetchBill){
                 if(err){
                     json.status = 500
                     json.response = "internal server error"
