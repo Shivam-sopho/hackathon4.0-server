@@ -55,8 +55,9 @@
               }
             })
 
+           
             socket.on("knumberDetail ack",function(data){
-            socket.on("knumberDetail ack",function(data){
+              console.log(data.response.kNumber)
               var knumber = data.response.kNumber;
               var name = data.response.name;
               var mobile = data.response.mobile;
@@ -69,7 +70,6 @@
                   "<li>Address :-"+ address +"</li>" + 
                   "<li>Amount :-"+billAmount +"</li>"
                 )
-              })
             })
         })
       
