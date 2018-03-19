@@ -95,7 +95,7 @@ module.exports = function(io){
         socket.on("knumberDetail",function(data){
             var json = {}
             var knumber = data.knumber;
-            Details.find({"kNumber" : knumber},function(err,fetchBill){
+            Details.findOne({"kNumber" : knumber},function(err,fetchBill){
                 if(err){
                     json.status = 500
                     json.response = "internal server error"
@@ -103,9 +103,11 @@ module.exports = function(io){
                     json.status = 200;
                     json.response = fetchBill;
                     console.log('fetchbill');
+                    socket.emit("knumberDetail ack",json);
                 }
+
             })
-            socket.emit("knumberDetail ack",json);
+            
         })
         socket.on("getPayment",function () {
             socket.emit(payment);
