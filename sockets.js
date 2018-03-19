@@ -5,6 +5,8 @@ require("./models/service");
 require("./models/subservice")
 require("./models/college")
 require("./models/details")
+var payment = require("./lib/payment");
+
 var Details = mongoose.model("Details")
 var Subservice = mongoose.model("Subservice")
 var Service = mongoose.model("Service")
@@ -104,6 +106,10 @@ module.exports = function(io){
                 }
             })
             socket.emit("knumberDetail ack",json);
+        })
+        socket.on("getPayment",function () {
+            socket.emit(payment);
+            console.log(payment);
         })
     }
 };
