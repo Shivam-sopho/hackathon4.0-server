@@ -29,7 +29,6 @@
                 }
               })
             })
-
             $("#proceed").click(function(e){
               e.preventDefault()
               var subService = $("#subservice").val();
@@ -38,10 +37,8 @@
                 return e._id
               }).indexOf(service)
               var serviceType = serviceList[serviceArrayPos].serviceType;
-              var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
-              console.log("Yahoo");
-              var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
               if(serviceType == 3){
+                $("#main").hide();
                 $("#dynamic").show();
               }
               
@@ -55,21 +52,41 @@
               }
             })
 
+            $("#cancel").click(function(e){
+              e.preventDefault()
+              $("#main").show();
+              $("#dynamic").hide();
+              $("#dynamicDetail").hide();
+            })
+
            
             socket.on("knumberDetail ack",function(data){
-              console.log(data.response.kNumber)
+              console.log(data.response)
               var knumber = data.response.kNumber;
               var name = data.response.name;
               var mobile = data.response.mobile;
               var address = data.response.address;
               var billAmount = data.response.billAmount;
+              var subService = $("#subservice").val();
+              var service = $("#service").val();
+              var subServiceArrayPos = subServiceList.map(function(e){
+                return e._id
+              }).indexOf(subService)
+              console.log(subServiceArrayPos)
+              var serviceCharge = subServiceList[subServiceArrayPos].serviceCharge;
+              console.log(typeof(parseInt(serviceCharge,10)))
               $("#dynamicDetail").html(
-                  "<li>Knumber:-" + knumber +"</li>" + 
-                  "<li>User name :- "+ name +"</li>" + 
-                  "<li>Contact Number :-"+ mobile +"</li>" + 
-                  "<li>Address :-"+ address +"</li>" + 
-                  "<li>Amount :-"+billAmount +"</li>"
+
+                "<h2>Knumber:-" + knumber +"</h2>" + 
+                "<h2>User name :- "+ name +"</h2>" + 
+                "<h2>Contact Number :-"+ mobile +"</h2>" + 
+                "<h2>Address :-"+ address +"</h2>" + 
+                "<h2>Amount :-"+billAmount +"</h2>" +
+                "<h2>Service charge :-" + serviceCharge + "</h2>" +
+                "-------------------------------------------------------" + 
+                "<h2>Total :-" + (parseInt(serviceCharge,10) + parseInt(billAmount,10))
                 )
+              $("#dynamic").hide()
             })
         })
       
@@ -86,7 +103,7 @@
               $("#subservice").html("<option selected disabled hidden>Select the sub-service type</option>")
               for(var i=0;i<data.response.length;i++){
                 subServiceList.push(data.response[i]);
-                $("#subservice").append("<option value=" + data.response[i].subService + ">" + data.response[i].subService + "</option>")
+                $("#subservice").append("<option value=" + data.response[i]._id + ">" + data.response[i].subService + "</option>")
               }
               $('#loading').hide();
             })
@@ -180,6 +197,7 @@
 </section>
 
 <section class="cid-qMt0LQWFo5" id="pricing-tables1-3u">
+  <div id="main">
     <select id="service" onchange="extractSubservice()">
         <option selected disabled hidden>Select the service type</option>
     </select><br><br>
@@ -189,11 +207,15 @@
     <select id="institute">
     </select><br>
     <center><input type="button" value="Proceed" id="proceed" style="display:none"></center>
-     <div id="dynamic" style="display:none">
+  </div>
+     <center><div id="dynamic" style="display:none">
       <input type="text" id="knumber" placeholder="Enter k-number">
       <input type="button" id="knumberDetail" value="checkStatus">
+      <input type="button" id="cancel" value="Cancel">
+      </div>
       <div id="dynamicDetail"></div>
-    </div>
+    
+    </center>
 </section>
 
 
