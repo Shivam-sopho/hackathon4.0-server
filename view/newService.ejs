@@ -140,7 +140,7 @@
             document.getElementById("institute").style.display = "block";
             socket.emit("extractCollege");
             socket.on("extractCollege ack",function(data){
-              console.log(data.status)
+              console.log(dataclick.status)
               for(var i=0;i<data.response.length;i++){
                 $("#institute").append("<option value=" + data.response[i].subService + ">" + data.response[i].college + "</option>")
                 document.getElementById("proceed").style.display = "block";
