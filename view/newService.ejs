@@ -40,9 +40,16 @@
               var serviceType = serviceList[serviceArrayPos].serviceType;
               var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
               console.log("Yahoo");
-              var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
+             // var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
               if(serviceType == 3){
                 $("#dynamic").show();
+              }
+              else if(serviceType ==2){
+              	$('#noBill').show('1000');
+              	
+              	$('#confirm').show();
+              	
+              	
               }
               
             })
@@ -54,6 +61,8 @@
                 socket.emit("knumberDetail",{"knumber":$("#knumber").val()})
               }
             })
+
+             
 
            
             socket.on("knumberDetail ack",function(data){
@@ -68,8 +77,13 @@
                   "<li>User name :- "+ name +"</li>" + 
                   "<li>Contact Number :-"+ mobile +"</li>" + 
                   "<li>Address :-"+ address +"</li>" + 
-                  "<li>Amount :-"+billAmount +"</li>"
+                  "<li>Amount :-"+billAmount +"</li>"+
+                  "<li>Amount :-"+serviceCharge +"</li>"
                 )
+            })
+
+            socket.on("accountDetail ack",function(data){
+            	console.log(data.response,)
             })
         })
       
@@ -158,6 +172,7 @@
   <div id="loading">
     <img id="loading-image" src="gif/bolt.gif" alt="Loading..." />
   </div>
+  
   <section class="mbr-section info3 cid-qMsVwoVckA" id="info3-3j">
 
     
@@ -193,6 +208,14 @@
       <input type="text" id="knumber" placeholder="Enter k-number">
       <input type="button" id="knumberDetail" value="checkStatus">
       <div id="dynamicDetail"></div>
+    </div>
+    <div id="noBill" style="display:none">
+      <h3>Detecting Aadhar Number from your finger print.</h3>
+      <div id="noBillDetail"></div>
+    </div>
+    <div id="confirm" style="display:none">
+      <h3>Detected Aadhar Number.</h3>
+      <div id="noBillDetail"></div>
     </div>
 </section>
 

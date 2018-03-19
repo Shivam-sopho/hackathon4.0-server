@@ -6,7 +6,8 @@ var dataSchema = new Schema({
     "name"     : {"type":String,"required":true},
     "mobile"   : {"type":String,"required":true},
     "address"  : {"type":String,"required":true},
-    "billAmount" : {"type": String,"required":true}
+    "billAmount" : {"type": String,"required":true},
+    "billType"   : {"type" : String, "required" :true}
     //"usertype"  : {"type":String,"required":true}
 });
 
