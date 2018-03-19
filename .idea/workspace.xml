@@ -287,7 +287,7 @@
       <workItem from="1521266890321" duration="42000" />
       <workItem from="1521268817589" duration="2762000" />
       <workItem from="1521300276729" duration="3864000" />
-      <workItem from="1521401982603" duration="4609000" />
+      <workItem from="1521401982603" duration="4693000" />
     </task>
     <task id="LOCAL-00001" summary="login success for android and web with url">
       <created>1521089272939</created>
@@ -300,7 +300,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38215000" />
+    <option name="totallyTimeSpent" value="38299000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="732" extended-state="6" />
