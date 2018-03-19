@@ -173,11 +173,17 @@
             
         }
         function addMoney(){
-          var json = {};
-          var serviceName = $("#service").val();
-          if(serviceName == "bill payment"){
-
-          }
+          var subService = $("#subservice").val();
+          var service = $("#service").val();
+          var serviceArrayPos = serviceList.map(function(e){
+            return e._id
+          }).indexOf(service)
+          var subServiceArrayPos = subServiceList.map(function(e){
+            return e._id
+          }).indexOf(subService)
+          var subServiceName = subServiceList[subServiceArrayPos].subService;
+          var serviceType = serviceList[serviceArrayPos].serviceType;
+          var serviceName = serviceList[serviceArrayPos].service;
         }
 
         function lastProcess(){
