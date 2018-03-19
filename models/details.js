@@ -7,7 +7,9 @@ var dataSchema = new Schema({
     "mobile"   : {"type":String,"required":true},
     "address"  : {"type":String,"required":true},
     "billAmount" : {"type": String,"required":true},
-    "billType"   : {"type" : String, "required" :true}
+    "billType"   : {"type" : String, "required" :true},
+    "collegeName" :{"type" : String, "default" :""},
+    "semester"   :{"type" : String, "default":""}
     //"usertype"  : {"type":String,"required":true}
 });
 

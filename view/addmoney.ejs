@@ -2,6 +2,28 @@
 <head>
     Add Money to your wallet
 </head>
+
+    <style>
+     .button {
+         background-color: #4CAF50; /* Green */
+         border: none;
+         color: white;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 16px;
+         margin: 4px 2px;
+         cursor: pointer;
+         padding: 10px 50px;
+         align : center;
+     }
+     .pay{
+         display: inline;
+     }
+     .button1 {
+         padding : 30x 120x
+     }
+</style>
 <body>
 <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="/socket.io-client/dist/socket.io.js"></script>
@@ -9,6 +31,7 @@
     var socket = io.connect();
     $(window).load(function (e) {
         e.preventDefault();
+
             socket.emit("emitUser",{userid:"<= user._id %>"});
             socket.on("emitUser ack",function(){
               socket.emit("getRating",{userid:"<%= user._id %>"})
@@ -17,18 +40,43 @@
               })
             socket.emit("getPayment");
             socket.on("getPayment ack",function (data) {
-                console.log(data);
+                for(var i = 0 ; i < data.length ; i++){
+                $("#payment").append(
+                    "<button class = \"button\" value ="+data[i]+" onclick=\"paymethod()\">"+ data[i] +"</button>"
+                    
+            )}
 
-                $("#payment").html(
+ function paymethod() {
+            $("#load").show();
+            setInterval(1000);
+            $("#load").hide();
 
-                )
+        }
             })
 
     })
+
     })
 </script>
-<div id = "payment">
-
+<div id = "payment" align = "center">
 </div>
+
+<div id="UPI" class = "pay">
+<form >
+    Enter your UPI Address:
+    <input type = "text" name = "upi" value = "UPI Address">
+    <button > Submit</button>
+    <br>
+</form>
+</div>
+<div id="Aadhar" class = "pay">
+    Enter the Aadhar Number:
+    <input type = "text" name = "aadhar" value = "Aadhar Details">
+    <button> Validate </button>
+</div>
+<div id="Bhamashah" class="pay">
+    Detecting the device
+</div>
+<div id = "Rupay Card" class="pay"></div>
 </body>
 </html>
