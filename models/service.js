@@ -3,7 +3,6 @@ var Schema = mongoose.Schema
 
 var serviceSchema = new Schema({
 	"service"		: {"type":String},
-	//"serviceCharge"	: {"type":String},
 	"serviceType"	: {"type":String}
 	/*
 		1->fixed billpayment

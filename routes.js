@@ -57,6 +57,10 @@ module.exports = function(app,passport){
       })
     });
 
+    app.get("/addmoney",isLoggedIn,function (req,res) {
+        res.render("addmoney",{"user":req.user});
+    })
+
     app.post('/login',passport.authenticate('local-login',{
         successRedirect :  '/dashboard',
         failureRedirect : '/',

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html >
 <head>
-    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="/socket.io-client/dist/socket.io.js"></script>
     <script>
         var socket = io.connect();
@@ -29,7 +29,6 @@
                 }
               })
             })
-
             $("#proceed").click(function(e){
               e.preventDefault()
               var subService = $("#subservice").val();
@@ -37,12 +36,23 @@
               var serviceArrayPos = serviceList.map(function(e){
                 return e._id
               }).indexOf(service)
-              var serviceType = serviceList[serviceArrayPos].serviceType;
+           var serviceType = serviceList[serviceArrayPos].serviceType;
+
               var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
               console.log("Yahoo");
-              var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
+             // var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
+
+
               if(serviceType == 3){
+                $("#main").hide();
                 $("#dynamic").show();
+              }
+              else if(serviceType ==2){
+              	$('#noBill').show('1000');
+              	
+              	$('#confirm').show();
+              	
+              	
               }
               
             })
@@ -55,22 +65,51 @@
               }
             })
 
+
+           
+   
+
+             
+           $("#cancel").click(function(e){
+              e.preventDefault()
+              $("#main").show();
+              $("#dynamic").hide();
+              $("#dynamicDetail").hide();
+            })
+
+
            
             socket.on("knumberDetail ack",function(data){
-              console.log(data.response.kNumber)
+              console.log(data.response)
               var knumber = data.response.kNumber;
               var name = data.response.name;
               var mobile = data.response.mobile;
               var address = data.response.address;
               var billAmount = data.response.billAmount;
+              var subService = $("#subservice").val();
+              var service = $("#service").val();
+              var subServiceArrayPos = subServiceList.map(function(e){
+                return e._id
+              }).indexOf(subService)
+              console.log(subServiceArrayPos)
+              var serviceCharge = subServiceList[subServiceArrayPos].serviceCharge;
+              console.log(typeof(parseInt(serviceCharge,10)))
               $("#dynamicDetail").html(
+
                   "<li>Knumber:-" + knumber +"</li>" + 
                   "<li>User name :- "+ name +"</li>" + 
                   "<li>Contact Number :-"+ mobile +"</li>" + 
                   "<li>Address :-"+ address +"</li>" + 
-                  "<li>Amount :-"+billAmount +"</li>"
+                  "<li>Amount :-"+billAmount +"</li>"+
+                  "<li>Amount :-"+serviceCharge +"</li>" +
+                "-------------------------------------------------------" + 
+                "<h2>Total :-" + (parseInt(serviceCharge,10) + parseInt(billAmount,10))
+
                 )
+              $("#dynamic").hide()
             })
+
+            
         })
       
 
@@ -86,7 +125,7 @@
               $("#subservice").html("<option selected disabled hidden>Select the sub-service type</option>")
               for(var i=0;i<data.response.length;i++){
                 subServiceList.push(data.response[i]);
-                $("#subservice").append("<option value=" + data.response[i].subService + ">" + data.response[i].subService + "</option>")
+                $("#subservice").append("<option value=" + data.response[i]._id + ">" + data.response[i].subService + "</option>")
               }
               $('#loading').hide();
             })
@@ -158,6 +197,7 @@
   <div id="loading">
     <img id="loading-image" src="gif/bolt.gif" alt="Loading..." />
   </div>
+  
   <section class="mbr-section info3 cid-qMsVwoVckA" id="info3-3j">
 
     
@@ -180,6 +220,7 @@
 </section>
 
 <section class="cid-qMt0LQWFo5" id="pricing-tables1-3u">
+  <div id="main">
     <select id="service" onchange="extractSubservice()">
         <option selected disabled hidden>Select the service type</option>
     </select><br><br>
@@ -189,11 +230,26 @@
     <select id="institute">
     </select><br>
     <center><input type="button" value="Proceed" id="proceed" style="display:none"></center>
-     <div id="dynamic" style="display:none">
+  </div>
+     <center><div id="dynamic" style="display:none">
       <input type="text" id="knumber" placeholder="Enter k-number">
       <input type="button" id="knumberDetail" value="checkStatus">
+      <input type="button" id="cancel" value="Cancel">
+      </div>
       <div id="dynamicDetail"></div>
+
     </div>
+    <div id="noBill" style="display:none">
+      <h3>Detecting Aadhar Number from your finger print.</h3>
+      <div id="noBillDetail"></div>
+    </div>
+    <div id="confirm" style="display:none">
+      <h3>Detected Aadhar Number.</h3>
+      <div id="noBillDetail"></div>
+    </div>
+    
+    </center>
+
 </section>
 
 
