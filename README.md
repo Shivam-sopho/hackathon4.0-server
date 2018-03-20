@@ -53,7 +53,9 @@ list now select the first option i.e "electric bill" and click proceed.
 
 Test Case(Feedback System):-
 
-Just send message in the format EM <kios key> <rating> <feedback>.
+Just send message in the format EM #kios key# #rating# #feedback#.
+  
   And we will detect your message and update it in database.
+  
   Or the second option is our android app for feedback system.Download the android app and give rating through the app.
   
