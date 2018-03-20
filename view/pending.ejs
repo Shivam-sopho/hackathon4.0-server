@@ -15,25 +15,41 @@
                     $("#rating").html(data.rating)
                 })
             })
-            socket.emit("getWalletBalance",{userid:"<%= user._id %>"})
-            socket.on("getWalletBalance ack",function(data){
+
+            socket.emit("getPendingStatus",{userid:"<%= user._id %>"})
+            socket.on("getPendingStatus ack",function(data){
               console.log(data)
-                if(data.freeBalance == null){
-                  $("#balance").html("Total balance:-"+(data.lockedBalance+data.freeBalance)+"<br>No free balance available")
-                }else{
-                $("#balance").html("Total balance:-"+(data.lockedBalance+data.freeBalance)+"<br>Free amount:-" + data.freeBalance +"<a href='/bankTransfer?amount="+data.freeBalance+"'>Transfer to bank</a>")
-              }
-            })
-            socket.emit("getTransHistory",{"userid":"<%= user._id %>"})
-            socket.on("getTransHistory ack",function(data){
               if(data.length!= ""){
                 for(var i=0;i<data.length;i++){
-                  console.log("helloddd")
+                  console.log("hello")
                   $("#tableContent").append("<tr><td class='body-item mbr-fonts-style display-7'><h3>" + data[i].serviceid.service + "</h3></td><td class='body-item mbr-fonts-style display-7'><h3>" + data[i].aadhar +"</h3></td><td class='body-item mbr-fonts-style display-7'><h3><input type='radio' onclick=pay('" + data[0]._id+"')>" + "</h3></td><td class='body-item mbr-fonts-style display-7'><h3>" + data[i].billAmount +"</h3></td></tr>")
                 }
+                
               }
             })
+
+            socket.on("initiatePayment ack",function(data){
+              $("#waiting").hide();
+              alert("Your transaction is successfull and your service charge is free!!!Enjoy!!")
+            })
         })
+        function pay(transId){
+          var message = ["Extracting information from aadhaar","Extracting payment detail","Sending payment detail to electric board server","Verifying last step"]
+          confirm("Are you sure you want to make this transaction??");
+          $("#waiting").show();
+          var cnt = 0;
+          var i =0;
+          
+          var inst = setInterval(function(){
+            $("#blurOver").html(message[i])
+            i++;
+            if(i == 5){
+              console.log("helllllll")
+              socket.emit("initiatePayment",{"transId":transId})
+              clearInterval(inst)
+            }
+          },5000)
+        }
     </script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,6 +69,10 @@
   
 </head>
 <body>
+<div id="waiting">
+    <h1 style="margin-top:50px;position:relative;top:400px;" id="blurOver"></h1>
+    <img id="loading-image" src="gif/check.gif" alt="Loading..." />
+</div>
 <section class="mbr-section info3 cid-qMsVwoVckA" id="info3-3j">
  <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(35, 35, 35);">
     </div>
@@ -75,7 +95,7 @@
 <br> 
   <div class="container container-table">
       <h2 class="mbr-section-title mbr-fonts-style align-center pb-3 display-2">
-          Transaction History</h2>
+          Pending Status Check</h2>
       
       <div class="table-wrapper">
         <div class="container">
@@ -83,23 +103,20 @@
         </div>
 
         <div class="container scroll">
-          <div id="balance">
-            
-          </div>
-          
-          <br>
           <table class="table" cellspacing="0">
             <thead>
               <tr class="table-heads ">                
-              <th class="head-item mbr-fonts-style display-5">Service</th>
+              <th class="head-item mbr-fonts-style display-5">Service Name</th>
               <th class="head-item mbr-fonts-style display-5">Aadhar Number</th>
-              <th class="head-item mbr-fonts-style display-5">Get details</th>
+              <th class="head-item mbr-fonts-style display-5">Transaction id</th>
               <th class="head-item mbr-fonts-style display-5">Amount</th>
+              
+              
             </tr>
             </thead>
-            <tbody id="tableContent">             
-            
-                </tbody>
+            <tbody id="tableContent">               
+            </tbody>
+
 				</table>
 
 
