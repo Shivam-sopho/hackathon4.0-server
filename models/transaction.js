@@ -8,6 +8,7 @@ var transactionSchema = new Schema({
     "billAmount"    : {"type":String, "required" : true},
     "serviceCharge" : {"type":String, "required" : true},
     "aadhar"		: {"type":String, "required" : true}
+    //
 });
 
 mongoose.model("Transaction",transactionSchema,"transaction");
