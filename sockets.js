@@ -114,7 +114,7 @@ module.exports = function(io){
             console.log("data")
             console.log(data.userid);
             new Feedback({
-                 user_id : data.userid,
+                userid : data.userid,
                 feedback : data.feedback,
                 rating : data.rating
             }).save((err,data)=>{
