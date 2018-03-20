@@ -14,6 +14,10 @@
                 socket.on("getRating ack",function(data){
                     $("#rating").html(data.rating)
                 })
+                socket.emit("getWalletBalance",{userid:"<%= user._id %>"})
+                socket.on("getWalletBalance ack",function(data){
+                    $("#walletBalance").html(data.freeBalance + data.lockedBalance)
+                })
             })
         })
     </script>
@@ -71,8 +75,8 @@
                     <h3 class="plan-title mbr-fonts-style display-2">Wallet Balance<br><br></h3>
                     <div class="plan-price">
                         <span class="price-value mbr-fonts-style display-5">₹&nbsp;</span>
-                        <span class="price-figure mbr-fonts-style display-1">
-                              35</span>
+                        <span class="price-figure mbr-fonts-style display-1" id="walletBalance">
+                              0</span>
                         <small class="price-term mbr-fonts-style display-7"></small>
                     </div>
                 </div>
@@ -126,7 +130,7 @@
                             <li class="list-group-item"><br></li>
                         </ul>
                     </div>
-                    <div class="mbr-section-btn text-center pt-4"><a href="/pendingStatus" class="btn btn-warning-outline display-4">Check Status&nbsp;</a></div>
+                    <div class="mbr-section-btn text-center pt-4"><a href="/pending" class="btn btn-warning-outline display-4">Check Status&nbsp;</a></div>
                 </div>
             </div>
 

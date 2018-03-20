@@ -34,9 +34,17 @@ module.exports = function(app,passport){
     app.get('/transaction',isLoggedIn,function(req,res){
       res.render('transaction',{"user":req.user});
     })
+    app.get('/pending',isLoggedIn,function(req,res){
+      res.render('pending',{"user":req.user});
+    })
 
     app.get("/newService",isLoggedIn,function(req,res){
       res.render("newService",{"user":req.user})
+    })
+
+    app.get("/bankTransfer",isLoggedIn,function(req,res){
+
+      res.render("bankTransfer",{"user":req.user,"amount":req.query.amount})
     })
 
   /* All the post method routes */
@@ -77,14 +85,8 @@ module.exports = function(app,passport){
         console.log(typeof(paymentDetail.service))
         console.log(json)
         //res.render("addmoney",json)
-        var json = {}
-        json.user = req.user
-        console.log(paymentDetail)
+       
         res.render("addmoney",json);
-
-        //res.render("addmoney1",{"user":req.user});
-
-
     })
 
     app.post('/login',passport.authenticate('local-login',{

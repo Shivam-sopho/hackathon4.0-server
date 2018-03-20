@@ -51,6 +51,15 @@
                 )}
             })
         })
+        socket.on("addMoney ack",function(data){
+            console.log(data)
+            if(data.status == 200){
+                $("#waiting").hide();
+                $("#detail").html("<h3>Payment successfully</h3>")
+            }else{
+                $("#detail").html("<h3>Payment Unsuccessfull</h3>")
+            }
+        })
     })
     function paymethod(data) {
         console.log(data.value)
@@ -74,7 +83,7 @@
         $("#blurOver").html("Request successfully sent!!!Waiting for the respond!!<br>Procedure:-<br>1.Go to your mobile and call *99#.<br>2.You will get your pending request.<br>3.Accept the current request by following the instructions")
         setTimeout(function(){
             var json = {}
-            socket.emit("addMoney",{"service":"<%= service %>","subService":"<%= subService %>","amount":"<%= amount %>","serviceCharge":"<%= serviceCharge %>","aadhaar":"<%= aadhaar %>"})
+            socket.emit("addMoney",{"service":"<%= service %>","subService":"<%= subService %>","amount":"<%= amount %>","serviceCharge":"<%= serviceCharge %>","aadhaar":"<%= aadhaar %>","userid":"<%= user._id %>"})
         },5000)
         $("#waiting").show()
     }

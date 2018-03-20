@@ -5,8 +5,9 @@ require("./models/service");
 require("./models/subservice")
 require("./models/college")
 require("./models/details")
+require("./models/transaction")
 var payment = require("./lib/payment");
-
+var Transaction = mongoose.model("Transaction")
 var Details = mongoose.model("Details")
 var Subservice = mongoose.model("Subservice")
 var Service = mongoose.model("Service")
@@ -120,7 +121,107 @@ module.exports = function(io){
         })
 
         socket.on("addMoney",function(data){
-            
+            console.log(data)
+            new Transaction({
+                "userid"        : data.userid,
+                "serviceid"     : data.service,
+                "subserviceid"  : data.subService,
+                "billAmount"    : data.amount,
+                "serviceCharge" : data.serviceCharge,
+                "aadhar"        : data.aadhaar,
+                "pendingStatus" : "1"
+            }).save(function(err){
+                var json = {}
+                if(err){
+                    json.status = 500
+                    json.response = "internal server error"
+                }else{
+                    json.status = 200
+                    json.response = "transition success"
+                    socket.emit("addMoney ack",json)
+                }
+            })
         })
+
+        socket.on("getWalletBalance",function(req){
+            Transaction.find({"userid":req.userid},function(err,data){
+                if(!data){
+                    console.log("hellllo")
+                    socket.emit("getWalletBalance ack",{"lockedBalance":0,"freeBalance":0})
+                }else{
+                    console.log("helo")
+                    var lockedBalance = 0;
+                    var freeBalance = 0;
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].pendingStatus == "1"){
+                            console.log("1")
+                            lockedBalance = lockedBalance + (parseInt(data[i].billAmount) + parseInt(data[i].serviceCharge))
+                        }
+                        else if(data[i].pendingStatus == "2"){
+                            console.log("2")
+                            freeBalance = freeBalance + parseInt(data[i].serviceCharge)
+                        }
+                        else if(data[i].pendingStatus == "3"){
+                            console.log("3")
+                            freeBalance = freeBalance - parseInt(data[i].serviceCharge)
+                        }
+                    }
+                    socket.emit("getWalletBalance ack",{"lockedBalance":lockedBalance,"freeBalance":freeBalance})
+                }
+            })
+        })
+
+        socket.on("getPendingStatus",function(data){
+            Transaction.find({"userid":data.userid,"pendingStatus":"1"},function(err,data){
+            }).populate("serviceid").exec(function(err,pending){
+                console.log(pending)
+                socket.emit("getPendingStatus ack",pending)
+            })
+        })
+
+        socket.on("initiatePayment",function(data){
+            console.log("hiiiiii")
+            Transaction.findOneAndUpdate({"_id":data.transId},{"pendingStatus":"2"},function(err,trans){
+                console.log(trans)
+                if(err){
+                    socket.emit("initiatePayment ack",{"status":500,"response":"internal server error"})
+                }
+                else if(!trans){
+                    socket.emit("initiatePayment ack",{"status":404,"response":"internal server error"})
+                }
+                else if(trans){
+                    socket.emit("initiatePayment ack",{"status":200,"response":"Successfull"})
+                }
+            })
+        })
+
+        socket.on("getTransHistory",function(data){
+            Transaction.find({"userid":data.userid,"pendingStatus":"2"},function(err,data){
+            }).populate("serviceid").exec(function(err,pending){
+                console.log(pending)
+                socket.emit("getTransHistory ack",pending)
+            })
+        })
+
+        socket.on("sendToBank",function(data){
+            console.log(data)
+            new Transaction({
+                "userid"        : data.userid,
+                "serviceCharge" : data.amount,
+                "pendingStatus" : "3"
+            }).save(function(err){
+                var json = {}
+                if(err){
+                    json.status = 500
+                    json.response = "internal server error"
+                }else{
+                    json.status = 200
+                    json.response = "transition success"
+                    socket.emit("sendToBank ack",json)
+                }
+            })
+        })
+
+        
     }
 };
