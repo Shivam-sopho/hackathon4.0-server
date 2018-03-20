@@ -109,6 +109,10 @@ module.exports = function(io){
             })
             
         })
+
+        socket.on("storeFeedback",function(data){
+            console.log(data)
+        })
         console.log(payment);
         socket.on("getPayment",function () {
             socket.emit("getPayment ack",payment);

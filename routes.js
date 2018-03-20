@@ -64,8 +64,9 @@ module.exports = function(app,passport){
       })
     });
 
-    app.get("/addmoney",isLoggedIn,function (req,res) {
+    app.post("/addmoney",isLoggedIn,function (req,res) {
         res.render("addmoney1",{"user":req.user});
+
     })
 
     app.post('/login',passport.authenticate('local-login',{
