@@ -121,6 +121,7 @@
               console.log(subServiceArrayPos)
               var serviceCharge = subServiceList[subServiceArrayPos].serviceCharge;
               console.log(typeof(parseInt(serviceCharge,10)))
+              console.log(data.response.collegeName)
               if(data.response.collegeName){
                 $("#dynamicDetail").html(
 
@@ -131,7 +132,7 @@
                   "<h2>Address :-"+ address +"</h2>" + 
                   "<h2>Amount :-"+billAmount +"</h2>"+
                   "<h2>Service charge :-"+serviceCharge +"</h2>" +
-                  "<h2>College :-" + data.response.collegeName + "</h2>" +collegeName + 
+                  "<h2>College :-" + data.response.collegeName + "</h2>" +
                 "-------------------------------------------------------" + 
                 "<h2>Total :-" + (parseInt(serviceCharge,10) + parseInt(billAmount,10)) + 
                 "<br><br><input type='button' onclick='addMoney()' value='Add money' id='bill'> <input type='button' onclick='cancleTrans()' value='cancel'>"
@@ -191,20 +192,18 @@
           var serviceType = serviceList[serviceArrayPos].serviceType;
           var serviceName = serviceList[serviceArrayPos].service;
           var serviceCharge = subServiceList[subServiceArrayPos].serviceCharge;
-          if(serviceName == "bill payment"){
+          if(serviceName == "bill payment" || serviceName == "fee payment"){
             var json = {}
             json.amount = billAmount
             json.serviceCharge = serviceCharge
             json.service = $("#service").val()
             json.subService = $("#subservice").val()
             json.aadhaar = aadhaar;
-            console.log(json)
-            
+            console.log(json)   
             $("#redirectContent").val(JSON.stringify(json))
             setTimeout(function(){
               $("#redirect").submit()
             },2000)
-            
           }
         }
 

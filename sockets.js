@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 require("./models/user");
 require("./models/feedback");
+require("./models/userFeedback");
 require("./models/service");
 require("./models/subservice")
 require("./models/college")
@@ -14,6 +15,7 @@ var Service = mongoose.model("Service")
 var User = mongoose.model("User");
 var Feedback = mongoose.model("Feedback");
 var College = mongoose.model("College");
+var UserFeedback = mongoose.model("UserFeedback");
 var activeSocket = [];
 var activeUser = [];
 
@@ -125,10 +127,20 @@ module.exports = function(io){
                     console.log("Successfully entered")
                 }
             })
-
         });
+
         socket.on("storeuserFeedback",function(data){
-            console.log(data)
+            var respond = data.message;
+            respond = respond.split(" ");
+            var id = respond[1];
+            var rating = respond[2];
+            var feed = ""
+            for(var i=3;i<respond.length;i++){
+                feed = feed + respond[i] + " "
+            }
+            console.log(id)
+            console.log(rating)
+            console.log(feed)
         })
 
         socket.on("getPayment",function () {
