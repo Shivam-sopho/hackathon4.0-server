@@ -29,6 +29,10 @@ module.exports = function(app,passport){
 
     app.get("/logout",function(req,res){
 
+    });
+
+    app.get('/transaction',isLoggedIn,function(req,res){
+      res.render('transaction',{"user":req.user});
     })
 
     app.get("/newService",isLoggedIn,function(req,res){
