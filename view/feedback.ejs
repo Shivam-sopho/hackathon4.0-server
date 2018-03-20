@@ -15,11 +15,21 @@
                 socket.on("getRating ack",function(data){
                     $("#rating").html(data.rating)
                 });
-                socket.emit("storeFeedback",{userid:}{
+                socket1 = {};
+          //      socket.userid = "<%=user._id%>";
+            //    socket.tid = $("#tid").val();
+              //  console.log(socket);
+               // socket.emit("storeFeedback",{userid:"<%= user._id%>"}{
 
                 })
             })
-        })
+    function feedbackstore(data) {
+        socket1.userid = "<%=user.id%>";
+        socket1.tid = $("#tid").val();
+        socket1.rating = $("#Rating").val();
+        socket1.feedback =
+        socket.emit("storeFeedback",socket1)
+    }
     </script>
 
 <style type="text/css">
@@ -88,27 +98,21 @@ label.star:before {
 
 <br>
 <br>
+     <form id="star">
 <center><h3>Provide rating to the user</h3>
-<form action="/feedbackSubmitted" method ="post">
-  <br>
-  <input type="text" name="transactionId" placeholder="Enter transaction Id"><br> 
+  <input type="text" name="transactionId" placeholder="Enter transaction Id" id = "tid"><br>
   <div class="stars">
 
-<input class="star star-1" id="star-1" type="radio" name="star"/>
-<label class="star star-1" for="star-1"></label>
-<input class="star star-2" id="star-2" type="radio" name="star"/>
-<label class="star star-2" for="star-2"></label>
-<input class="star star-3" id="star-3" type="radio" name="star"/>
-<label class="star star-3" for="star-3"></label>
-<input class="star star-4" id="star-4" type="radio" name="star"/>
-<label class="star star-4" for="star-4"></label>
-<input class="star star-5" id="star-5" type="radio" name="star"/>
-<label class="star star-5" for="star-5"></label>
-</div>
-<br>
-<textarea name="myTextBox" cols="50" rows="5" placeholder="Others please specify..."></textarea>
+<select id="Rating">
+    <option value = "1" > 1 Star</option>
+    <option value = "2" > 2 Star</option>
+    <option value = "3" > 3 Star</option>
+    <option value = "4" > 4 Star</option>
+    <option value = "5" > 5 Star</option>
+</select>
+<textarea name="myTextBox" cols="50" rows="5" placeholder="Others please specify..." id="feedback "></textarea>
 <br />
-<input type="button" value ="Submit" />
+<input type="button" value ="Submit" onclick="feedbackstore(this)"/>
 </form>
 </center>
 

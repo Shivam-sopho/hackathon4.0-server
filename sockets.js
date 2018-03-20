@@ -109,9 +109,12 @@ module.exports = function(io){
             })
             
         })
-        socket.emit("storeFeedback");
         socket.on("storeFeedback",function(data){
             console.log(data);
+            Feedback.save({
+                userid = data.userid,
+                feedback =
+            });
 
         })
         console.log(payment);
