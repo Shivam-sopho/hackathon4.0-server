@@ -29,14 +29,24 @@ As we have not being provided with the actually database so we have created our 
 Test Case(For e-wallet):-
 Steps to try out the functionality:-
 1.visit http://localhost:8080 if you are running locally or visit http://winning-journey.herokuapp.com/
+
 2.You will be prompt to the login panel.Enter the test case as username:-"lalrishav" and password:-"lalrishav";
+
 3.Now you have been successfully logged in and now you are on dashboard.If you want to start the new service just click on "New service" option and you will be redirected to another page.
-4.From this page select the type of service(For this test case select "bill payment" which is the first option).You will get the list of sub-service list now select the first option i.e "electric bill" and click proceed.
+
+4.From this page select the type of service(For this test case select "bill payment" which is the first option).You will get the list of sub-service 
+list now select the first option i.e "electric bill" and click proceed.
+
 5.Now the page will ask you for the Knumber.Enter the proper Knumber(for this test case enter EL67813) and then checkStatus button.
+
 6.You will now see the total details related to that Knumber.
+
 7.Now it turn to add the money to the wallet.So click "Add money" and you will be redirected to the payment option
+
 8.Select the UPI method to proceed and then enter your UPI address and you will being instructed.Wait for 5 minutes and your payment will be verified.
+
 9.Go to dashboard and then wallet and you can see the updated amount and pending tasks.Visit every options and see the status and logs there.
+
 10.Thank you.Please stick with the test cases 
 
 Test Case(Feedback System):
