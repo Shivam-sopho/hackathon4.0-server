@@ -9,6 +9,7 @@
         var serviceList = [];
         $(window).load(function(e){
             $('#loading').hide();
+            $('#aadharCheck').hide();
             e.preventDefault();
             document.getElementById("service").style.display = "block";
             socket.emit("emitUser",{userid:"<= user._id %>"});
@@ -26,7 +27,7 @@
                       serviceList.push(data.response[i]);
                       $("#service").append("<option value=" + data.response[i]._id + ">" + data.response[i].service + "</option>")
                     }
-                }
+                  }
               })
             })
             $("#proceed").click(function(e){
@@ -36,26 +37,56 @@
               var serviceArrayPos = serviceList.map(function(e){
                 return e._id
               }).indexOf(service)
-           var serviceType = serviceList[serviceArrayPos].serviceType;
-
+              var subServiceArrayPos = subServiceList.map(function(e){
+                return e._id
+              }).indexOf(subService)
+              var subServiceName = subServiceList[subServiceArrayPos].subService;
+              var serviceType = serviceList[serviceArrayPos].serviceType;
+              var serviceName = serviceList[serviceArrayPos].service;
               var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
-              console.log("Yahoo");
+              console.log(serviceType);
+
              // var serviceCharge = serviceList[serviceArrayPos].serviceCharge;
-
-
               if(serviceType == 3){
+                if(serviceName == "fee payment"){
+                  document.getElementById("knumber").placeholder = "Enter chalan number"
+                }
                 $("#main").hide();
                 $("#dynamic").show();
               }
-              else if(serviceType ==2){
-              	$('#noBill').show('1000');
-              	
-              	$('#confirm').show();
-              	
-              	
+              else if(serviceType == 2){
+
+                if(subServiceName == "commercial new water connection" || subServiceName == "pension check"){
+                  $("#main").hide()
+                  $("#noPay").show()
+                  $("#aadharForm").show();
+                }
+                else if(subServiceName == "aadhaar card issue" || subServiceName == "bhamashah card issue"){
+                  $("#main").hide()
+                  $("#noPay").show()
+                  $("#paymentDetail").html("<h2>This service is free of cost!!Enjoy</h2>" + "<br><br><input type='button' onclick='addMoney()' value='Proceed' id='pension'> <input type='button' onclick='cancleTrans()' value='cancel'>")
+                }
               }
-              
             })
+            $("#proceedAadhaar").click(function(){
+              $("#blurOver").html("<h1><strong>Detecting finger</strong></h1>")
+              setTimeout(function(){
+                var subService = $("#subservice").val();
+                var subServiceArrayPos = subServiceList.map(function(e){
+                  return e._id
+                }).indexOf(subService)
+                console.log(subServiceArrayPos)
+                var serviceCharge = subServiceList[subServiceArrayPos].serviceCharge;
+                  $("#aadharCheck").hide();
+                  $("#main").hide();
+                  $("#paymentDetail").html(
+                    "<h2>Service charge:-" + serviceCharge + "</h2>" + 
+                    "<br><br><input type='button' onclick='addMoney()' value='Add money' id='pension'> <input type='button' onclick='cancleTrans()' value='cancel'>"
+                    )
+              },2000)
+              $("#aadharCheck").show();    
+            })
+
 
             $("#knumberDetail").click(function(){
               if($("#knumber").val() == ""){
@@ -64,21 +95,12 @@
                 socket.emit("knumberDetail",{"knumber":$("#knumber").val()})
               }
             })
-
-
-           
-   
-
-             
-           $("#cancel").click(function(e){
+            $("#cancel").click(function(e){
               e.preventDefault()
               $("#main").show();
               $("#dynamic").hide();
               $("#dynamicDetail").hide();
             })
-
-
-           
             socket.on("knumberDetail ack",function(data){
               console.log(data.response)
               var knumber = data.response.kNumber;
@@ -86,6 +108,7 @@
               var mobile = data.response.mobile;
               var address = data.response.address;
               var billAmount = data.response.billAmount;
+
               var subService = $("#subservice").val();
               var service = $("#service").val();
               var subServiceArrayPos = subServiceList.map(function(e){
@@ -94,23 +117,41 @@
               console.log(subServiceArrayPos)
               var serviceCharge = subServiceList[subServiceArrayPos].serviceCharge;
               console.log(typeof(parseInt(serviceCharge,10)))
+              if(data.response.collegeName){
+                $("#dynamicDetail").html(
+
+                  "<h2>Knumber:-" + knumber +"</h2>" + 
+                  "<h2>User name :- "+ name +"</h2>" + 
+                  "<h2>Contact Number :-"+ mobile +"</h2>" + 
+                  "<h2>Address :-"+ address +"</h2>" + 
+                  "<h2>Amount :-"+billAmount +"</h2>"+
+                  "<h2>Service charge :-"+serviceCharge +"</h2>" +
+                  "<h2>College :-" + data.response.collegeName + "</h2>" +collegeName
+                "-------------------------------------------------------" + 
+                "<h2>Total :-" + (parseInt(serviceCharge,10) + parseInt(billAmount,10)) + 
+                "<br><br><input type='button' onclick='addMoney()' value='Add money' id='bill'> <input type='button' onclick='cancleTrans()' value='cancel'>"
+                )
+              $("#dynamic").hide()
+              }
+              else{
               $("#dynamicDetail").html(
 
-                  "<li>Knumber:-" + knumber +"</li>" + 
-                  "<li>User name :- "+ name +"</li>" + 
-                  "<li>Contact Number :-"+ mobile +"</li>" + 
-                  "<li>Address :-"+ address +"</li>" + 
-                  "<li>Amount :-"+billAmount +"</li>"+
-                  "<li>Service Charge :-"+serviceCharge +"</li>" +
+
+                  "<h2>Knumber:-" + knumber +"</h2>" + 
+                  "<h2>User name :- "+ name +"</h2>" + 
+                  "<h2>Contact Number :-"+ mobile +"</h2>" + 
+                  "<h2>Address :-"+ address +"</h2>" + 
+                  "<h2>Amount :-"+billAmount +"</h2>"+
+                  "<h2>Service charge :-"+serviceCharge +"</h2>" +
                 "-------------------------------------------------------" + 
-                "<h2>Total :-" + (parseInt(serviceCharge,10) + parseInt(billAmount,10))
+                "<h2>Total :-" + (parseInt(serviceCharge,10) + parseInt(billAmount,10)) + 
+                "<br><br><input type='button' onclick='addMoney()' value='Add money' id='bill'> <input type='button' onclick='cancleTrans()' value='cancel'>"
 
                 )
               $("#dynamic").hide()
+            }
             })
-
-            
-        })
+          })
       
 
 
@@ -130,6 +171,13 @@
               $('#loading').hide();
             })
             
+        }
+        function addMoney(){
+          var json = {};
+          var serviceName = $("#service").val();
+          if(serviceName == "bill payment"){
+
+          }
         }
 
         function lastProcess(){
@@ -197,6 +245,11 @@
   <div id="loading">
     <img id="loading-image" src="gif/bolt.gif" alt="Loading..." />
   </div>
+
+  <div id="aadharCheck">
+    <h1 style="margin-top:50px;" id="blurOver"></h1>
+    <img id="loading-image" src="gif/check.gif" alt="Loading..." />
+  </div>
   
   <section class="mbr-section info3 cid-qMsVwoVckA" id="info3-3j">
 
@@ -210,8 +263,6 @@
             <div class="media-container-column title col-12 col-md-10">
                 <h2 class="align-left mbr-bold mbr-white pb-3 mbr-fonts-style display-2">
                     <%= user.username %></h2>
-                
-                
                 <div class="mbr-section-btn align-left py-4"><a class="btn btn-black display-4" href="https://mobirise.com"><span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span><span id="rating">Unrated</span></a>
                     <a class="btn btn-secondary display-4" href="/logout"><span class="mbrib-logout mbr-iconfont mbr-iconfont-btn"></span>Logout</a></div>
             </div>
@@ -237,16 +288,16 @@
       <input type="button" id="cancel" value="Cancel">
       </div>
       <div id="dynamicDetail"></div>
-
-    </div>
-    <div id="noBill" style="display:none">
-      <h3>Detecting Aadhar Number from your finger print.</h3>
-      <div id="noBillDetail"></div>
-    </div>
-    <div id="confirm" style="display:none">
-      <h3>Detected Aadhar Number.</h3>
-      <div id="noBillDetail"></div>
-    </div>
+  </div>
+  
+  <div id="noPay" style="display:none">
+    <div id="aadharForm" style="display:none;">
+      <input type="text" id="aadharNumber" placeholder="Enter aadhaar number">
+      <input type="button" value="Proceed" id="proceedAadhaar">
+    </div><br><br>
+    <div id="paymentDetail"></div>
+    <div id="pensionDetail"></div>
+  </div>
     
     </center>
 
