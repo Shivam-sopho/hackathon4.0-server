@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    Add Money to your wallet
-</head>
 
     <style>
      .button {
@@ -31,9 +29,9 @@
          padding : 30x 120x
      }
 </style>
-<body>
 <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="/socket.io-client/dist/socket.io.js"></script>
+<link rel="stylesheet" href="static.css">
 <script>
     var socket = io.connect();
     $(window).load(function (e) {
@@ -50,74 +48,75 @@
                 for(var i = 0 ; i < data.length ; i++){
                 $("#payment").append(
                     "<button class = \"button\" value ="+data[i]+" onclick=\"paymethod(this)\">"+ data[i] +"</button>"
-
-            )}
-
-
-
+                )}
             })
-
-    })
-
+        })
     })
     function paymethod(data) {
         console.log(data.value)
-            if(data.value == 'UPI'){
-                $("#UPI").show();
-                $("#payment").hide();
-            }
-            if(data.value == 'Aadhar')
+        if(data.value == 'UPI'){
+            $("#UPI").show();
+            $("#payment").hide();
+        }
+        if(data.value == 'Aadhar')
             $("#Aadhar").show();
-            if(data.value == 'Bhamashah') {
-                $("#loading").show();
-                setInterval(4000)
-                $("#loading").hide();
-                $("#bhamashah").show();
-
-            }
-            if(data.value == "RupayCard")
-                $("#loader").show()
-                $("#RupayCard").show();
-
-
-        }
-    function addmoney(data) {
-        if(data.value == "UPI"){
+        if(data.value == 'Bhamashah') {
             $("#loading").show();
-            setTimeout(function () {
-                $("loading").hide();
-            },8000)
-
+            setInterval(4000)
+            $("#loading").hide();
+            $("#bhamashah").show();
         }
+        if(data.value == "RupayCard")
+            $("#loader").show()
+            $("#RupayCard").show();
+        }
+    function addMoney(){
+        $("#blurOver").html("Request successfully sent!!!Waiting for the respond!!<br>Procedure:-<br>1.Go to your mobile and call *99#.<br>2.You will get your pending request.<br>3.Accept the current request by following the instructions")
+        setTimeout(function(){
+            var json = {}
+            socket.emit("addMoney",{"service":"<%= service %>","subService":"<%= subService %>","amount":"<%= amount %>","serviceCharge":"<%= serviceCharge %>","aadhaar":"<%= aadhaar %>"})
+        },5000)
+        $("#waiting").show()
     }
 
+    
+
 </script>
+</head>
+<body>
+<div id="loading">
+    <img id="loading-image" src="gif/bolt.gif" alt="Loading..." />
+</div>
+
+<div id="waiting">
+    <h1 style="margin-top:50px;position:relative;top:400px;" id="blurOver"></h1>
+    <img id="loading-image" src="gif/check.gif" alt="Loading..." />
+</div>
+
 <div id = "payment" align = "center">
 </div>
 
 <div id="UPI" class = "pay">
-<form >
     <br>
     <br>
     <p align="center">Enter your UPI Address:<p>
-    <center><input type = "text" name = "upi" value = "UPI Address" </center>
-    <button value="UPI" onclick="addmoney(this)"> Submit</button>
+    <center><input type = "text" name = "upi" placeholder = "UPI Address">
+    <input type="button" value="submit" onclick="addMoney()"> 
+    </center>
     <br>
-</form>
+
 </div>
 <div id="Aadhar" class = "pay">
     <p align = "center">Enter the Aadhar Number:</p>
-    <input type = "text" name = "aadhar" value = "Aadhar Details">
+    <input type = "text" name = "aadhar" placeholder = "Aadhar Details">
     <button > Validate </button>
 </div>
 <div id="bhamashah" class="pay">
-
     Detecting the device
 </div>
 <div id = "rupayCard" class="pay"></div>
-<div id="loading">
-    <img id="loading-image" src="gif/bolt.gif" alt="Loading..." />
-  </div>
+<center><div id="detail"></div></center>
+
 
 </body>
 </html>

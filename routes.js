@@ -65,7 +65,25 @@ module.exports = function(app,passport){
     });
 
     app.post("/addmoney",isLoggedIn,function (req,res) {
-        res.render("addmoney1",{"user":req.user});
+
+        var paymentDetail = JSON.parse(req.body.contents);
+        var json = {}
+        json.user = req.user
+        json.aadhaar = paymentDetail.aadhaar
+        json.service = paymentDetail.service
+        json.subService = paymentDetail.subService;
+        json.amount = paymentDetail.amount;
+        json.serviceCharge = paymentDetail.serviceCharge
+        console.log(typeof(paymentDetail.service))
+        console.log(json)
+        //res.render("addmoney",json)
+        var json = {}
+        json.user = req.user
+        console.log(paymentDetail)
+        res.render("addmoney",json);
+
+        //res.render("addmoney1",{"user":req.user});
+
 
     })
 

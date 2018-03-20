@@ -9,6 +9,7 @@
         var serviceList = [];
         var billAmount;
         var serviceCharge;
+        var aadhaar;
         $(window).load(function(e){
             $('#loading').hide();
             $('#aadharCheck').hide();
@@ -109,6 +110,7 @@
               var name = data.response.name;
               var mobile = data.response.mobile;
               var address = data.response.address;
+              aadhaar = data.response.aadhar;
               billAmount = data.response.billAmount;
 
               var subService = $("#subservice").val();
@@ -125,6 +127,7 @@
                   "<h2>Knumber:-" + knumber +"</h2>" + 
                   "<h2>User name :- "+ name +"</h2>" + 
                   "<h2>Contact Number :-"+ mobile +"</h2>" + 
+                  "<h2>Aadhaar:-" + aadhaar + "</h2>" + 
                   "<h2>Address :-"+ address +"</h2>" + 
                   "<h2>Amount :-"+billAmount +"</h2>"+
                   "<h2>Service charge :-"+serviceCharge +"</h2>" +
@@ -142,6 +145,7 @@
                   "<h2>Knumber:-" + knumber +"</h2>" + 
                   "<h2>User name :- "+ name +"</h2>" + 
                   "<h2>Contact Number :-"+ mobile +"</h2>" + 
+                  "<h2>Aadhaar:-" + aadhaar + "</h2>" + 
                   "<h2>Address :-"+ address +"</h2>" + 
                   "<h2>Amount :-"+billAmount +"</h2>"+
                   "<h2>Service charge :-"+serviceCharge +"</h2>" +
@@ -186,12 +190,21 @@
           var subServiceName = subServiceList[subServiceArrayPos].subService;
           var serviceType = serviceList[serviceArrayPos].serviceType;
           var serviceName = serviceList[serviceArrayPos].service;
+          var serviceCharge = subServiceList[subServiceArrayPos].serviceCharge;
           if(serviceName == "bill payment"){
             var json = {}
             json.amount = billAmount
             json.serviceCharge = serviceCharge
-            $("#redirectContent").val(json)
-            $("#redirect").submit()
+            json.service = $("#service").val()
+            json.subService = $("#subservice").val()
+            json.aadhaar = aadhaar;
+            console.log(json)
+            
+            $("#redirectContent").val(JSON.stringify(json))
+            setTimeout(function(){
+              $("#redirect").submit()
+            },2000)
+            
           }
         }
 
@@ -314,7 +327,7 @@
     <div id="pensionDetail"></div>
   </div>
     <form action="/addMoney" id="redirect" method="post">
-      <input type="hidden" id="redirectContent">
+      <input type="hidden" id="redirectContent" name="contents">
     </form>
     </center>
 
