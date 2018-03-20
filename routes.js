@@ -29,6 +29,10 @@ module.exports = function(app,passport){
 
     app.get("/logout",function(req,res){
 
+    });
+
+    app.get('/transaction',isLoggedIn,function(req,res){
+      res.render('transaction',{"user":req.user});
     })
 
     app.get("/newService",isLoggedIn,function(req,res){
@@ -61,7 +65,8 @@ module.exports = function(app,passport){
     });
 
     app.post("/addmoney",isLoggedIn,function (req,res) {
-        res.render("addmoney",{"user":req.user});
+        res.render("addmoney1",{"user":req.user});
+
     })
 
     app.post('/login',passport.authenticate('local-login',{
