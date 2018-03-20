@@ -18,7 +18,7 @@
             socket.emit("getWalletBalance",{userid:"<%= user._id %>"})
             socket.on("getWalletBalance ack",function(data){
               console.log(data)
-                if(data.freeBalance == null){
+                if(data.freeBalance == null || data.freeBalance == 0){
                   $("#balance").html("Total balance:-"+(data.lockedBalance+data.freeBalance)+"<br>No free balance available")
                 }else{
                 $("#balance").html("Total balance:-"+(data.lockedBalance+data.freeBalance)+"<br>Free amount:-" + data.freeBalance +"<a href='/bankTransfer?amount="+data.freeBalance+"'>Transfer to bank</a>")
