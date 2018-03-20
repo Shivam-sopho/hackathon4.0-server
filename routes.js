@@ -29,6 +29,10 @@ module.exports = function(app,passport){
 
     app.get("/logout",function(req,res){
 
+    });
+
+    app.get('/transaction',isLoggedIn,function(req,res){
+      res.render('transaction',{"user":req.user});
     })
 
     app.get("/newService",isLoggedIn,function(req,res){
@@ -61,6 +65,7 @@ module.exports = function(app,passport){
     });
 
     app.post("/addmoney",isLoggedIn,function (req,res) {
+
         var paymentDetail = JSON.parse(req.body.contents);
         var json = {}
         json.user = req.user
@@ -71,11 +76,15 @@ module.exports = function(app,passport){
         json.serviceCharge = paymentDetail.serviceCharge
         console.log(typeof(paymentDetail.service))
         console.log(json)
-        res.render("addmoney",json)
-        /*var json = {}
+        //res.render("addmoney",json)
+        var json = {}
         json.user = req.user
         console.log(paymentDetail)
-        res.render("addmoney",json);*/
+        res.render("addmoney",json);
+
+        //res.render("addmoney1",{"user":req.user});
+
+
     })
 
     app.post('/login',passport.authenticate('local-login',{

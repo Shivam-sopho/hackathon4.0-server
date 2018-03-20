@@ -120,7 +120,6 @@ module.exports = function(io){
         })
 
         socket.on("addMoney",function(data){
-            console.log(data)
             
         })
     }
