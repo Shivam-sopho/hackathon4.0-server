@@ -49,7 +49,7 @@ module.exports = function(io){
                             total = total + parseInt(feedback[i].rating)
                         }
                         json.status = 200
-                        json.rating = total/feedback.length
+                        json.rating = Math.round((total/feedback.length)*10)/10
                         console.log(json)
                         socket.emit("getRating ack",json)
                     }
@@ -162,6 +162,17 @@ module.exports = function(io){
         socket.on("getPayment",function () {
             socket.emit("getPayment ack",payment);
             console.log(payment);
+        })
+
+        socket.on("getPendingStatusCount",function(data){
+            Transaction.find({"userid":data.userid,"pendingStatus":"1"},function(err,pending){
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    socket.emit("getPendingStatusCount ack",{"count":pending.length})
+                }
+            })
         })
 
         socket.on("addMoney",function(data){
