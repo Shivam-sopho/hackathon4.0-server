@@ -27,7 +27,9 @@ P.S:-
 As we have not being provided with the actually database so we have created our own local database with all the details of bills and payments
 
 Test Case(For e-wallet):-
+
 Steps to try out the functionality:-
+
 1.visit http://localhost:8080 if you are running locally or visit http://winning-journey.herokuapp.com/
 
 2.You will be prompt to the login panel.Enter the test case as username:-"lalrishav" and password:-"lalrishav";
@@ -49,4 +51,9 @@ list now select the first option i.e "electric bill" and click proceed.
 
 10.Thank you.Please stick with the test cases 
 
-Test Case(Feedback System):
+Test Case(Feedback System):-
+
+Just send message in the format EM <kios key> <rating> <feedback>.
+  And we will detect your message and update it in database.
+  Or the second option is our android app for feedback system.Download the android app and give rating through the app.
+  
