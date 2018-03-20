@@ -97,4 +97,5 @@ module.exports = function(app,passport){
         failureFlash : true
     }))
     
+
 };
