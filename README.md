@@ -36,8 +36,6 @@ Instruction to use :
 
 Test Case(e-wallet system):-
 
-Steps to try out the functionality:-
-
 	1.visit http://localhost:8080 if you are running locally or visit http://winning-journey.herokuapp.com/
 
 	2.You will be prompt to the login panel.Enter the test case as username:-"lalrishav" and password:-"lalrishav";
