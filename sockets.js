@@ -126,7 +126,9 @@ module.exports = function(io){
             })
 
         });
-
+        socket.on("storeuserFeedback",function(data){
+            console.log(user)
+        })
 
         socket.on("getPayment",function () {
             socket.emit("getPayment ack",payment);
