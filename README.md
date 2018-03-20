@@ -39,4 +39,4 @@ Steps to try out the functionality:-
 9.Go to dashboard and then wallet and you can see the updated amount and pending tasks.Visit every options and see the status and logs there.
 10.Thank you.Please stick with the test cases 
 
-Test Case(Feedback System):-
+Test Case(Feedback System):
