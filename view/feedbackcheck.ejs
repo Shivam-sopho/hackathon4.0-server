@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="/socket.io-client/dist/socket.io.js"></script>
+    <script>
+        var socket = io.connect();
+        $(window).load(function(e){
+            $("#loading").hide()
+            e.preventDefault();
+            socket.emit("emitUser",{userid:"<%= user._id %>"})
+            socket.on("emitUser ack",function(){
+                socket.emit("getRating",{userid:"<%= user._id %>"})
+                socket.on("getRating ack",function(data){
+                    $("#rating").html(data.rating)
+                })
+
+            })
+        })
+    </script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.6.6, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="stylesheet" href="static.css">
+  <link rel="shortcut icon" href="assets2/images/logo4.png" type="image/x-icon">
+  <meta name="description" content="Website Builder Description">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="assets2/web/assets/mobirise-icons-bold/mobirise-icons-bold.css">
+  <link rel="stylesheet" href="assets2/tether/tether.min.css">
+  <link rel="stylesheet" href="assets2/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets2/bootstrap/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="assets2/bootstrap/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets2/theme/css/style.css">
+  <link rel="stylesheet" href="assets2/mobirise/css/mbr-additional.css" type="text/css">
+  
+  
+  
+</head>
+<body>
+  <section class="mbr-section info3 cid-qMsVwoVckA" id="info3-3j">
+
+    
+
+    <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(35, 35, 35);">
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="media-container-column title col-12 col-md-10">
+                <h2 class="align-left mbr-bold mbr-white pb-3 mbr-fonts-style display-2">
+                    <%= user.username %></h2>
+                
+                
+                <div class="mbr-section-btn align-left py-4"><a class="btn btn-black display-4"><span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span><span id="rating">Unrated</span></a>
+                    <a class="btn btn-secondary display-4" href="/logout"><span class="mbrib-logout mbr-iconfont mbr-iconfont-btn"></span>Logout</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="engine"><a href="https://mobirise.ws/j">how to design own website</a></section><section class="carousel slide testimonials-slider cid-qMMowDPNYl" id="testimonials-slider1-3z">
+    
+    
+
+    
+
+    <div class="container text-center">
+        
+
+        <div class="carousel slide" data-ride="carousel" role="listbox">
+            <div class="carousel-inner">
+                
+                
+            <div class="carousel-item">
+                    <div class="user col-md-8">
+                        <div class="user_image">
+                            <img src="assets2/images/download-1-225x225.jpg" alt="" title="">
+                        </div>
+                        <div class="user_text pb-3">
+                            <p class="mbr-fonts-style display-7">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae nostrum, quos voluptas fugiat blanditiis, temporibus expedita cumque doloribus ea, officiis consequuntur repellat minus ad veritatis? Facere similique accusamus, accusantium sunt!
+                            </p>
+                        </div>
+                        <div class="user_name mbr-bold pb-2 mbr-fonts-style display-7">
+                            Helen
+                        </div>
+                        <div class="user_desk mbr-light mbr-fonts-style display-7">
+                            DESIGNER
+                        </div>
+                    </div>
+                </div><div class="carousel-item">
+                    <div class="user col-md-8">
+                        <div class="user_image">
+                            <img src="assets/images/download-1-225x225.jpg" alt="" title="">
+                        </div>
+                        <div class="user_text pb-3">
+                            <p class="mbr-fonts-style display-7">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae nostrum, quos voluptas fugiat blanditiis, temporibus expedita cumque doloribus ea, officiis consequuntur repellat minus ad veritatis? Facere similique accusamus, accusantium sunt!
+                            </p>
+                        </div>
+                        <div class="user_name mbr-bold pb-2 mbr-fonts-style display-7">
+                            Linda
+                        </div>
+                        <div class="user_desk mbr-light mbr-fonts-style display-7">
+                            DEVELOPER
+                        </div>
+                    </div>
+                </div></div>
+
+            <div class="carousel-controls">
+                <a class="carousel-control-prev" role="button" data-slide="prev">
+                  <span aria-hidden="true" class="mbri-arrow-prev mbr-iconfont"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                
+                <a class="carousel-control-next" role="button" data-slide="next">
+                  <span aria-hidden="true" class="mbri-arrow-next mbr-iconfont"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <script src="assets2/web/assets/jquery/jquery.min.js"></script>
+  <script src="assets2/popper/popper.min.js"></script>
+  <script src="assets2/tether/tether.min.js"></script>
+  <script src="assets2/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets2/smoothscroll/smooth-scroll.js"></script>
+  <script src="assets2/bootstrapcarouselswipe/bootstrap-carousel-swipe.js"></script>
+  <script src="assets2/mbr-testimonials-slider/mbr-testimonials-slider.js"></script>
+  <script src="assets2/theme/js/script.js"></script>
+  
+  
+</body>
+</html>

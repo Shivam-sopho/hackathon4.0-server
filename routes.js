@@ -27,6 +27,10 @@ module.exports = function(app,passport){
         res.render("feedback",{"user":req.user})
     });
 
+    app.get("/checkFeedback",isLoggedIn,function(req,res){
+        res.render("feedbackcheck",{"user":req.user})
+    });
+
     app.get("/logout",function(req,res){
 
     });
@@ -92,6 +96,5 @@ module.exports = function(app,passport){
         failureRedirect : '/',
         failureFlash : true
     }))
-    app.post('/feedbackSubmitted',)
     
 };
