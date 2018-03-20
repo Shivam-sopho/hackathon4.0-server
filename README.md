@@ -34,7 +34,7 @@ Instruction to use :
 	P.S:- As we have not being provided with the actually database so we have created our own local database with all the details of bills and payments
 	
 
-Test Case(For e-wallet):-
+Test Case(e-wallet system):-
 
 Steps to try out the functionality:-
 
