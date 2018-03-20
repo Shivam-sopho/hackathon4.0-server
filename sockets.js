@@ -117,10 +117,14 @@ module.exports = function(io){
             });
 
         })
-        console.log(payment);
+
         socket.on("getPayment",function () {
             socket.emit("getPayment ack",payment);
             console.log(payment);
+        })
+
+        socket.on("addMoney",function(data){
+            
         })
     }
 };
