@@ -138,6 +138,17 @@ module.exports = function(io){
             for(var i=3;i<respond.length;i++){
                 feed = feed + respond[i] + " "
             }
+            new UserFeedback({
+                "userid"    : id,
+                "rating"    : rating,
+                "feedback"  : feed
+            }).save(function(err,data){
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(data)
+                }
+            })
             console.log(id)
             console.log(rating)
             console.log(feed)
