@@ -81,6 +81,15 @@
 
 
         }
+    function addmoney(data) {
+        if(data.value == "UPI"){
+            $("#loading").show();
+            setTimeout(function () {
+                $("loading").hide();
+            },8000)
+
+        }
+    }
 
 </script>
 <div id = "payment" align = "center">
@@ -92,14 +101,14 @@
     <br>
     <p align="center">Enter your UPI Address:<p>
     <center><input type = "text" name = "upi" value = "UPI Address" </center>
-    <button > Submit</button>
+    <button value="UPI" onclick="addmoney(this)"> Submit</button>
     <br>
 </form>
 </div>
 <div id="Aadhar" class = "pay">
     <p align = "center">Enter the Aadhar Number:</p>
     <input type = "text" name = "aadhar" value = "Aadhar Details">
-    <button> Validate </button>
+    <button > Validate </button>
 </div>
 <div id="bhamashah" class="pay">
 

@@ -60,7 +60,7 @@ module.exports = function(app,passport){
       })
     });
 
-    app.get("/addmoney",isLoggedIn,function (req,res) {
+    app.post("/addmoney",isLoggedIn,function (req,res) {
         res.render("addmoney",{"user":req.user});
     })
 
