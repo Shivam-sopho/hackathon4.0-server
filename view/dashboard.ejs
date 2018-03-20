@@ -12,6 +12,7 @@
             socket.on("emitUser ack",function(){
                 socket.emit("getRating",{userid:"<%= user._id %>"})
                 socket.on("getRating ack",function(data){
+                    console.log(data)
                     $("#rating").html(data.rating)
                 })
                 socket.emit("getWalletBalance",{userid:"<%= user._id %>"})

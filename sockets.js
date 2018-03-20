@@ -35,20 +35,25 @@ module.exports = function(io){
             console.log("helllllllo")
             var userid = data.userid;
             var json = {}
-            Feedback.findOne({"userid":userid},function(err,feedback){
+            UserFeedback.find({"userid":userid},function(err,feedback){
                 if(err){
                     json.status = 500;
                     json.data = "internal server error"
                 }else{
                     if(!feedback){
                         json.status = 200
-                        json.data = "Unrated"
+                        json.rating = "Unrated"
                     }else{
-                        json.status = 200;
-                        json.data = feedback.rating;
+                        var total = 0;
+                        for(var i=0;i<feedback.length;i++){
+                            total = total + parseInt(feedback[i].rating)
+                        }
+                        json.status = 200
+                        json.rating = total/feedback.length
+                        console.log(json)
+                        socket.emit("getRating ack",json)
                     }
                 }
-                socket.emit("getRating ack",json)
             })
         });
 
