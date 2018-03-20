@@ -110,13 +110,26 @@ module.exports = function(io){
             
         })
         socket.on("storeFeedback",function(data){
-            console.log(data);
-            Feedback.save({
-                userid = data.userid,
-                feedback =
-            });
+            console.log("data")
+            console.log(data.userid);
+            new Feedback({
+                 user_id : data.userid,
+                feedback : data.feedback,
+                rating : data.rating
+            }).save((err,data)=>{
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log("Successfully entered")
+                }
+            })
 
+        });
+        socket.on("storeUserFeedback",function(data){
+            console.log(data);
         })
+
 
         socket.on("getPayment",function () {
             socket.emit("getPayment ack",payment);
