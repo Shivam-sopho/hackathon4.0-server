@@ -12,7 +12,7 @@ var Subservice = mongoose.model("Subservice")
 var Service = mongoose.model("Service")
 var User = mongoose.model("User");
 var Feedback = mongoose.model("Feedback");
-var College = mongoose.model("College")
+var College = mongoose.model("College");
 var activeSocket = [];
 var activeUser = [];
 
@@ -109,9 +109,10 @@ module.exports = function(io){
             })
             
         })
-
+        socket.emit("storeFeedback");
         socket.on("storeFeedback",function(data){
-            console.log(data)
+            console.log(data);
+
         })
         console.log(payment);
         socket.on("getPayment",function () {
