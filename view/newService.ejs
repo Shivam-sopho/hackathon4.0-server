@@ -7,6 +7,8 @@
         var socket = io.connect();
         var subServiceList = [];
         var serviceList = [];
+        var billAmount;
+        var serviceCharge;
         $(window).load(function(e){
             $('#loading').hide();
             $('#aadharCheck').hide();
@@ -107,7 +109,7 @@
               var name = data.response.name;
               var mobile = data.response.mobile;
               var address = data.response.address;
-              var billAmount = data.response.billAmount;
+              billAmount = data.response.billAmount;
 
               var subService = $("#subservice").val();
               var service = $("#service").val();
@@ -184,6 +186,13 @@
           var subServiceName = subServiceList[subServiceArrayPos].subService;
           var serviceType = serviceList[serviceArrayPos].serviceType;
           var serviceName = serviceList[serviceArrayPos].service;
+          if(serviceName == "bill payment"){
+            var json = {}
+            json.amount = billAmount
+            json.serviceCharge = serviceCharge
+            $("#redirectContent").val(json)
+            $("#redirect").submit()
+          }
         }
 
         function lastProcess(){
@@ -304,7 +313,9 @@
     <div id="paymentDetail"></div>
     <div id="pensionDetail"></div>
   </div>
-    
+    <form action="/addMoney" id="redirect" method="post">
+      <input type="hidden" id="redirectContent">
+    </form>
     </center>
 
 </section>
