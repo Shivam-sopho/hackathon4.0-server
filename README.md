@@ -63,6 +63,8 @@ Test Case(Feedback System):-
 	And we will detect your message and update it in database.
 
 	Or the second option is our android app for feedback system.Download the android app and give rating through the app.
+	1.Github link : https://github.com/arch-DJ/Emitra-user-feedback-system
+	2. 	      : https://github.com/arch-DJ/Emitra-sms-feedback-system	
 
 Technology used:-  
 
