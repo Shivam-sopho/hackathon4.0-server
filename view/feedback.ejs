@@ -31,6 +31,8 @@
         socket1.feedback = $("#feedback").val();
         console.log(socket1.feedback);
         socket.emit("storeFeedback",socket1)
+        alert("Thank you for your feedback")
+        window.location.href="/dashboard"
     }
     </script>
 
@@ -104,7 +106,7 @@ label.star:before {
 <center><h3>Provide rating to the user</h3>
   <input type="text" name="transactionId" placeholder="Enter transaction Id" id = "tid"><br>
   <div class="stars">
-
+<br>
 <select id="Rating">
     <option value = "1" > 1 Star</option>
     <option value = "2" > 2 Star</option>
