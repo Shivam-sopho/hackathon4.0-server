@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="/socket.io-client/dist/socket.io.js"></script>
+    <script>
+        var socket = io.connect();
+        $(window).load(function(e){
+            $("#loading").hide()
+            e.preventDefault();
+            socket.emit("emitUser",{userid:"<%= user._id %>"})
+            socket.on("emitUser ack",function(){
+                socket.emit("getRating",{userid:"<%= user._id %>"})
+                socket.on("getRating ack",function(data){
+                    $("#rating").html(data.rating)
+                })
+            })
+        })
+    </script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.6.6, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="stylesheet" href="static.css">
+  <link rel="shortcut icon" href="assets1/images/logo4.png" type="image/x-icon">
+  <meta name="description" content="Website Builder Description">
+  <title>Add Money</title>
+  <link rel="stylesheet" href="assets1/web/assets/mobirise-icons-bold/mobirise-icons-bold.css">
+  <link rel="stylesheet" href="assets1/tether/tether.min.css">
+  <link rel="stylesheet" href="assets1/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets1/bootstrap/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="assets1/bootstrap/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets1/theme/css/style.css">
+  <link rel="stylesheet" href="assets1/mobirise/css/mbr-additional.css" type="text/css">
+
+</head>
+<body>
+  <section class="mbr-section info3 cid-qMsVwoVckA" id="info3-3j">
+
+    
+
+    <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(35, 35, 35);">
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="media-container-column title col-12 col-md-10">
+                <h2 class="align-left mbr-bold mbr-white pb-3 mbr-fonts-style display-2">
+                    <%= user.username %></h2>
+                
+                
+                <div class="mbr-section-btn align-left py-4"><a class="btn btn-black display-4"><span class="mbrib-star mbr-iconfont mbr-iconfont-btn"></span><span id="rating">Unrated</span></a>
+                    <a class="btn btn-secondary display-4" href="/logout"><span class="mbrib-logout mbr-iconfont mbr-iconfont-btn"></span>Logout</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="tabs1 cid-qMM75A34hj" id="tabs1-3x">
+
+    
+
+    
+    <div class="container">
+        <h2 class="mbr-white align-center pb-5 mbr-fonts-style mbr-bold display-5">
+            Amount (Dynamic)
+        </h2>
+        <div class="media-container-row">
+            <div class="col-12 col-md-8">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active show display-7" role="tab" data-toggle="tab" href="#tabs1-3x_tab0" aria-selected="true">
+                            UPI</a></li>
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active show display-7" role="tab" data-toggle="tab" href="#tabs1-3x_tab1" aria-selected="true">
+                            Aadhar Card</a></li>
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active show display-7" role="tab" data-toggle="tab" href="#tabs1-3x_tab2" aria-selected="true">
+                            Bhamashah Card
+                        </a></li>
+                    <li class="nav-item"><a class="nav-link mbr-fonts-style active show display-7" role="tab" data-toggle="tab" href="#tabs1-3x_tab3" aria-selected="true">
+                            Rupay Card
+                        </a></li>
+                    
+                    
+                </ul>
+                <div class="tab-content">
+                    <div id="tab1" class="tab-pane in active" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="mbr-text py-5 mbr-fonts-style display-7"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab2" class="tab-pane" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="mbr-text py-5 mbr-fonts-style display-4"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab3" class="tab-pane" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="mbr-text py-5 mbr-fonts-style display-7"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab4" class="tab-pane" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="mbr-text py-5 mbr-fonts-style display-7"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <script src="assets1/web/assets/jquery/jquery.min.js"></script>
+  <script src="assets1/popper/popper.min.js"></script>
+  <script src="assets1/tether/tether.min.js"></script>
+  <script src="assets1/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets1/smoothscroll/smooth-scroll.js"></script>
+  <script src="assets1/mbr-tabs/mbr-tabs.js"></script>
+  <script src="assets1/theme/js/script.js"></script>
+  
+  
+</body>
+</html>
