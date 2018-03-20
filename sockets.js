@@ -126,9 +126,6 @@ module.exports = function(io){
             })
 
         });
-        socket.on("storeUserFeedback",function(data){
-            console.log(data);
-        })
 
 
         socket.on("getPayment",function () {
