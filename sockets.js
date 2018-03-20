@@ -13,7 +13,7 @@ var Subservice = mongoose.model("Subservice")
 var Service = mongoose.model("Service")
 var User = mongoose.model("User");
 var Feedback = mongoose.model("Feedback");
-var College = mongoose.model("College")
+var College = mongoose.model("College");
 var activeSocket = [];
 var activeUser = [];
 
@@ -110,8 +110,24 @@ module.exports = function(io){
             })
             
         })
-
         socket.on("storeFeedback",function(data){
+            console.log("data")
+            console.log(data.userid);
+            new Feedback({
+                 user_id : data.userid,
+                feedback : data.feedback,
+                rating : data.rating
+            }).save((err,data)=>{
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log("Successfully entered")
+                }
+            })
+
+        });
+        socket.on("storeuserFeedback",function(data){
             console.log(data)
         })
 
