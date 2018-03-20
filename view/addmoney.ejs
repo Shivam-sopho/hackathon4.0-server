@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     Add Money to your wallet
@@ -17,8 +18,14 @@
          padding: 10px 50px;
          align : center;
      }
+     .loading{
+         display : none;
+     }
      .pay{
-         display: inline;
+         display:none;
+     }
+     .input{
+        align : center
      }
      .button1 {
          padding : 30x 120x
@@ -31,7 +38,7 @@
     var socket = io.connect();
     $(window).load(function (e) {
         e.preventDefault();
-
+            $('#loading').hide();
             socket.emit("emitUser",{userid:"<= user._id %>"});
             socket.on("emitUser ack",function(){
               socket.emit("getRating",{userid:"<%= user._id %>"})
@@ -42,41 +49,66 @@
             socket.on("getPayment ack",function (data) {
                 for(var i = 0 ; i < data.length ; i++){
                 $("#payment").append(
-                    "<button class = \"button\" value ="+data[i]+" onclick=\"paymethod()\">"+ data[i] +"</button>"
-                    
+                    "<button class = \"button\" value ="+data[i]+" onclick=\"paymethod(this)\">"+ data[i] +"</button>"
+
             )}
 
- function paymethod() {
-            $("#load").show();
-            setInterval(1000);
-            $("#load").hide();
 
-        }
+
             })
 
     })
 
     })
+    function paymethod(data) {
+        console.log(data.value)
+            if(data.value == 'UPI'){
+                $("#UPI").show();
+                $("#payment").hide();
+            }
+            if(data.value == 'Aadhar')
+            $("#Aadhar").show();
+            if(data.value == 'Bhamashah') {
+                $("#loading").show();
+                setInterval(4000)
+                $("#loading").hide();
+                $("#bhamashah").show();
+
+            }
+            if(data.value == "RupayCard")
+                $("#loader").show()
+                $("#RupayCard").show();
+
+
+        }
+
 </script>
 <div id = "payment" align = "center">
 </div>
 
 <div id="UPI" class = "pay">
 <form >
-    Enter your UPI Address:
-    <input type = "text" name = "upi" value = "UPI Address">
+    <br>
+    <br>
+    <p align="center">Enter your UPI Address:<p>
+    <center><input type = "text" name = "upi" value = "UPI Address" </center>
     <button > Submit</button>
     <br>
 </form>
 </div>
 <div id="Aadhar" class = "pay">
-    Enter the Aadhar Number:
+    <p align = "center">Enter the Aadhar Number:</p>
     <input type = "text" name = "aadhar" value = "Aadhar Details">
     <button> Validate </button>
 </div>
-<div id="Bhamashah" class="pay">
+<div id="bhamashah" class="pay">
+
     Detecting the device
 </div>
-<div id = "Rupay Card" class="pay"></div>
+<div id = "rupayCard" class="pay"></div>
+<div id="loading">
+    <img id="loading-image" src="gif/bolt.gif" alt="Loading..." />
+  </div>
+
 </body>
 </html>
